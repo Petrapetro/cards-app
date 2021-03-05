@@ -1,8 +1,8 @@
 import config from "../config";
 
-const mysql = require('mysql');
+const mysql2 = require('mysql2');
 
-const mysqlConn = mysql.createConnection({
+const mysqlConn = mysql2.createConnection({
   ...config.mysql
 });
 
