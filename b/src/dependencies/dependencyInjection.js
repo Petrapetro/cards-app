@@ -5,6 +5,6 @@ import { UserRepo } from '../repos/userRepo'
 import { db } from '../data/connection'
 
 export const userRepo = new UserRepo(db)
-export const userService = new UserService(userRepo)
 export const authService = new AuthService(userRepo)
-export const userController = new UserController(userService, authService)
+export const userService = new UserService(userRepo, authService)
+export const userController = new UserController(userService)

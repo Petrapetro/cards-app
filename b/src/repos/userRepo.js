@@ -3,7 +3,7 @@ export class UserRepo {
     this.db = db;
   }
 
-  async existsByUsername(username) {
+async existsByUsername(username) {
     const user = (await this.db('select COUNT(*) as exUser from users where username = ?', [username])).results[0].exUser;
     return user ? true : false;
 }
@@ -29,4 +29,31 @@ async findByUsername(username) {
     }
     return usersWithName
 }
+
+validateInputs(inputs) {
+    const { username, hash, kingdomName } = inputs;
+    if (!username || !hash || !kingdomName) {
+      let errorMessage = "Missing ";
+      if (!username) {
+        if (hash && kingdomName) {
+          errorMessage += "username.";
+          throw new HttpError(500, errorMessage);
+        } else {
+          errorMessage += "username, ";
+        }
+      }
+      if (!hash) {
+        if (kingdomName) {
+          errorMessage += "hash.";
+          throw new HttpError(500, errorMessage);
+        } else {
+          errorMessage += "hash, ";
+        }
+      }
+      if (!kingdomName) {
+        errorMessage += "kingdom name.";
+        throw new HttpError(500, errorMessage);
+      }
+    }
+  }
 }

@@ -1,7 +1,7 @@
 export class UserController {
-  constructor(userService, authService) {
+  constructor(userService) {
     this.userService = userService
-    this.authService = authService
+    this.signUp = this.signUp.bind(this)
   }
 
   async login({ body }, res) {
@@ -20,13 +20,9 @@ export class UserController {
 
   async signUp(req, res) {
     const { username, password } = req.body;
+    console.log({ username, password })
     try {
-      validateInputsByRegister({ username, password })
-      if (await this.userRepo.existsByUsername(username)) {
-        throw Error("User is already taken.")
-      }
-      const hash = await this.authService.getHashedPassword(password);
-      const addUserMessage = await this.userService.add({ username, hash });
+      const addUserMessage = await this.userService.signUp(username, password);
       res.status(200).json({ message: addUserMessage });
     } catch (e) {
       res.status(500).json({ message: e.message });
