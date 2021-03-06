@@ -1,13 +1,13 @@
 import bcryptjs from 'bcryptjs'
-import config from '../config'
 import jwt from 'jsonwebtoken'
-import { } from 'dotenv'
+require('dotenv').config()
 
 const salt = bcryptjs.genSaltSync(10);
 
 export class AuthService {
     constructor(userRepo) {
-        this.userRepo = userRepo;
+        this.userRepo = userRepo
+        this.authenticate = this.authenticate.bind(this)
     }
 
     async getHashedPassword(inputPassword) {
@@ -19,13 +19,13 @@ export class AuthService {
     }
 
     async authenticate(username, password) {
-        const usersWithName = await this.userRepo.getByUsername(username);
+        const usersWithName = await this.userRepo.findByUsername(username);
         if (!usersWithName) {
             throw Error("There is no user with this name.");
         }
         if (usersWithName.password) {
             if (await this.decodePassword(password, usersWithName.password)) {
-                const secretAccess = config.secret;
+                const secretAccess = process.env.SECRET;
                 const accessToken = jwt.sign({ username: username }, secretAccess, { expiresIn: '1h' });
                 return accessToken;
             }

@@ -14,10 +14,8 @@ export class UserRepo {
   }
 
   async add(inputs) {
-    console.log({ inputs })
     try {
       this.validateInputs(inputs);
-      console.log({ inputs })
       await this.db('INSERT INTO cards.users(username, password) VALUES (?,?)', [inputs.username, inputs.hash]);
       return `${inputs.username} has been registered.`;
     } catch (e) {
@@ -30,26 +28,23 @@ export class UserRepo {
   }
 
   async findByUsername(username) {
-    const usersWithName = (await this.db('SELECT * FROM users WHERE username = ?', [username])).results;
-    if (usersWithName.length === 0) {
-      return null
+    const usersWithName = (await this.db('SELECT * FROM users WHERE username = ?', [username])).results[0];
+    if (!usersWithName) {
+      throw Error(`There is no user with name '${username}'.`)
     }
     return usersWithName
   }
 
   validateInputs(inputs) {
     const { username, hash } = inputs;
+    if (!username && !hash) {
+      return "Missing username and hash."
+    }
     if (!username || !hash) {
-      let errorMessage = "Missing ";
-      if (!username) {
-        if (hash) {
-          errorMessage += "username.";
-          throw new HttpError(500, errorMessage);
-        }
-        if (!hash) {
-          errorMessage += "hash.";
-          throw new HttpError(500, errorMessage);
-        }
+      if (hash) {
+        return "Missing username.";
+      } else {
+        return "Missing hash.";
       }
     }
   }
