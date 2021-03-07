@@ -7,10 +7,12 @@ import {
 import Auth from './components/auth/Auth'
 import SignUp from './components/signup/SignUp'
 import Main from './components/main/Main'
+import Header from './components/header/Header'
 
 function App() {
   return (
     <div className="App">
+      <Header />
       <Router>
         <Switch>
           <Route path="/cards">

@@ -6,22 +6,25 @@ import Cards from '../../components/card/Card'
 const Main = () => {
   return (
     <div style={{
-      textAlign: 'center'    }}>
-      <h1>Cards!</h1>
+      textAlign: 'center',
+      width: '100%',
+      height: '100%',
+    }}>
       <div style={{
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        marginTop: '10em'
+        marginTop: '15em',
+        
       }}>
         <div style={{
-          display: "inline-block",
-          width: "25%"
+          display: "block",
+          width: "25%",
         }}>
           <Cards
             children={<Auth />} name="Login" /></div>
         <div style={{
-          display: "inline-block",
+          display: "block",
           width: "25%"
         }}>
           <Cards
