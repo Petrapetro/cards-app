@@ -17,7 +17,6 @@ body,
   align-items: center;
   justify-content: center;
 }
-
 .c {
   position: absolute;
   max-width: 20em;
@@ -27,11 +26,9 @@ body,
   cursor: pointer;
   will-change: transform, opacity;
 }
-
 .c:hover {
   box-shadow: 0 15px 20px rgba(0,0,0,0.3);
 }
-
 .front,
 .back {
   background-size: cover;
