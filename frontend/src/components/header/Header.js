@@ -1,9 +1,10 @@
 import React from 'react'
+import './styles.css'
 
 const Header = () => {
   return (
-    <div style={{ width: '100%', height: '4em', backgroundColor: 'black', margin: '0', textAlign: 'center'}}>
-      <h1 style={{color: 'white', marginTop: '0', paddingTop: '0.3em'}}>Cards</h1>
+    <div className="header">
+      <h1 className="title">Cards</h1>
     </div>
   )
 }
