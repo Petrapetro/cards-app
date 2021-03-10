@@ -17,9 +17,9 @@ function Card({children, name}) {
     }
   }
   return (
-    <div class="card" onClick={handleOnClick}>
-      <a.div class="c back" style={{ opacity: opacity.interpolate(o => 1 - o), transform }}><h1>{name}</h1></a.div>
-      <a.div class="c front" style={{ opacity, transform: transform.interpolate(t => `${t} rotateX(180deg)`) }}>{children}</a.div>
+    <div className="card" onClick={handleOnClick}>
+      <a.div className="c back" style={{ opacity: opacity.interpolate(o => 1 - o), transform }}><h1>{name}</h1></a.div>
+      <a.div className="c front" style={{ opacity, transform: transform.interpolate(t => `${t} rotateX(180deg)`) }}>{children}</a.div>
     </div>
   )
 }

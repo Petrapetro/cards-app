@@ -8,7 +8,7 @@ import './styles.css'
 const Main = () => {
   return (
       <div className="main-wrapper">
-        <div><Cards  children={<Welcome />} name="Welcome!"/></div>
+        <div><Cards children={<Welcome />} name="Welcome!"/></div>
         <div id="secondCard"><Cards children={<Auth />} name="Login" /></div>
         <div id="thirdCard"><Cards children={<SignUp />} name="Sign Up" /></div>
       </div>
