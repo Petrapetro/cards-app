@@ -1,6 +1,6 @@
 import bcryptjs from 'bcryptjs'
 import jwt from 'jsonwebtoken'
-require('dotenv').config()
+import config from '../config'
 
 const salt = bcryptjs.genSaltSync(10);
 
@@ -11,40 +11,47 @@ export class AuthService {
     }
 
     async getHashedPassword(inputPassword) {
-        return bcryptjs.hash(inputPassword, salt);
+        return bcryptjs.hash(inputPassword, salt)
     }
 
     async decodePassword(password, inputHashedPassword) {
-        return bcryptjs.compare(password, inputHashedPassword);
+        return bcryptjs.compare(password, inputHashedPassword)
     }
 
     async authenticate(username, password) {
-        const usersWithName = await this.userRepo.findByUsername(username);
+        console.log("AuthService")
+        console.log({ username, password })
+        const usersWithName = (await this.userRepo.findByUsername(username))
+        console.log({ usersWithName })
         if (!usersWithName) {
-            throw Error("There is no user with this name.");
+            throw Error("There is no user with this name.")
         }
         if (usersWithName.password) {
+            console.log(await this.decodePassword(password, usersWithName.password))
             if (await this.decodePassword(password, usersWithName.password)) {
-                const secretAccess = process.env.SECRET;
-                const accessToken = jwt.sign({ username: username }, secretAccess, { expiresIn: '1h' });
-                return accessToken;
+                const secretAccess = config.secret
+                console.log(secretAccess)
+                const accessToken = jwt.sign({ username: username }, secretAccess, { expiresIn: '1h' })
+                console.log({ accessToken })
+                return accessToken
+            } else {
+                throw Error("Incorrect password.")
             }
-            throw Error("Incorrect password.");
         }
     }
 
     async getUserByToken(authHeader) {
         return new Promise((resolve, reject) => {
-            if(authHeader) {
-                const [ , token ] = authHeader.split(' ');
+            if (authHeader) {
+                const [, token] = authHeader.split(' ')
                 try {
-                    const user = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
-                    resolve(user);
+                    const user = jwt.verify(token, config.secret)
+                    resolve(user)
                 } catch (e) {
-                    reject({message: 'Please login first.'})
+                    reject({ message: 'Please login first.' })
                 }
             } else {
-                reject({message: 'Please provide a valid token.'})
+                reject({ message: 'Please provide a valid token.' })
             }
         })
     }

@@ -7,7 +7,7 @@ import config from './config'
 app.use('/api', api);
 app.use('/', api)
 
-const PORT = config.PORT || 3000
+const PORT = config.port || 3000
 
 app.listen(PORT, () => {
   console.log(`App is listening on ${PORT}`);

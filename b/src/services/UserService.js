@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken'
+import config from '../config'
 import { } from 'dotenv'
 
 export class UserService {
@@ -13,7 +14,9 @@ export class UserService {
     if (username.length < 8 || password.length < 8) {
       throw Error("Username and password must be at least 8 characters long.")
     }
+    console.log(await this.userRepo.existsByUsername(username))
     if (await this.userRepo.existsByUsername(username)) {
+      console.log("here we are!")
       throw Error("User is already taken.")
     }
     const hash = await this.authService.getHashedPassword(password);
@@ -37,6 +40,6 @@ export class UserService {
       throw Error("No token was provided");
     }
     const [, token] = authHeader.split(' ');
-    return jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+    return jwt.verify(token, config.secret);
   }
 }

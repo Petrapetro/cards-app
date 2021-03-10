@@ -24,7 +24,9 @@ const useLoginForm = (initialValues) => {
           }
         })
         .catch(err => {
-          console.log({err})
+          const { data } = err.response
+          const { message } = data
+          setLoginErrorMessage(message)
         })
     }
   }

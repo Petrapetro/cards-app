@@ -10,5 +10,5 @@ export default {
     database: process.env.MYSQL_DATABASE,
   },
   port: process.env.PORT,
-  secret: process.env.ACCESS_TOKEN_SECRET,
+  secret: process.env.SECRET,
 };

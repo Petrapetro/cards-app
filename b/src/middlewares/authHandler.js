@@ -1,13 +1,15 @@
 import { decode } from "jsonwebtoken";
-require('dotenv').config()
+import config from '../config'
 
 
 const authorizedHandler = async (req, res, next) => {
   try {
+    console.log("authHandler")
+    console.log(req.headers["authorization"])
     if (req.headers["authorization"] !== null) {
       const [, token] = req.headers["authorization"].split('Bearer ')
       if (token !== null) {
-        const { username } = decode(token, process.env.SECRET)
+        const { username } = decode(token, config.SECRET)
         req.user = username
       }
     }

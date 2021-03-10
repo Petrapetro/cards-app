@@ -28,10 +28,13 @@ const useRegForm = (initialValues) => {
         }
       })
         .then(response => {
-          history.push('/login')
+          history.push('/welcome')
         })
-        .catch(err => 
-          setInputs({ ...inputs, errorMessage: err.response.data.message }))
+        .catch(err => {
+          const { data } = err.response
+          const { message } = data
+          setErrorMessage(message)
+        })
     }
   }
 

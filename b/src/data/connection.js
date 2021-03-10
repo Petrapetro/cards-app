@@ -3,10 +3,10 @@ import config from '../config'
 
 const pool = mysql2.createPool({
   connectionLimit: 12,
-  host: config.mysql.MYSQL_HOST,
-  user: config.mysql.MYSQL_USER,
-  password: config.mysql.MYSQL_PASSWORD,
-  database: config.mysql.MYSQL_DATABASE,
+  host: config.mysql.host,
+  user: config.mysql.user,
+  password: config.mysql.password,
+  database: config.mysql.database,
 })
 
 export const db = async (query, values) => {
