@@ -2,7 +2,7 @@ const express = require('express')
 
 import cors from 'cors'
 
-import { userController } from '../dependencies/dependencyInjection'
+import { userController, setController } from '../dependencies/dependencyInjection'
 import authHandler from '../middlewares/authHandler'
 
 const router = express.Router();
@@ -17,7 +17,7 @@ router.get('/hello', (req, res) => {
   res.send("hello world")
 })
 router.post('/signup', userController.signUp)
-router.post('/auth', userController.login)
+router.post('/login', userController.login)
 router.get('/user/:id', authHandler, setController.get)
 
 module.exports = router

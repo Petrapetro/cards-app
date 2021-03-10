@@ -3,4 +3,7 @@ export class SetService {
     this.setRepo = setRepo
   }
 
+  async getAllByUserId(userId) {
+    return this.setRepo.getAllById(userId)
+  }
 }

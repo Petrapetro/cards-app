@@ -28,7 +28,7 @@ const useRegForm = (initialValues) => {
         }
       })
         .then(response => {
-          history.push('/auth')
+          history.push('/login')
         })
         .catch(err => 
           setInputs({ ...inputs, errorMessage: err.response.data.message }))

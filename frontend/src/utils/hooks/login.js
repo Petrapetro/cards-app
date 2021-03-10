@@ -13,7 +13,7 @@ const useLoginForm = (initialValues) => {
     if (!inputs.username || !inputs.password) {
       setLoginErrorMessage("All the input fields are required.")
     } else {
-      axios.post("http://localhost:3000/auth", inputs)
+      axios.post("http://localhost:3000/login", inputs)
         .then(response => {
           if (response.status === 200) {
             const { data } = response
@@ -24,9 +24,7 @@ const useLoginForm = (initialValues) => {
           }
         })
         .catch(err => {
-          const { data } = err.response
-          const { message } = data
-          setLoginErrorMessage(message)
+          console.log({err})
         })
     }
   }
