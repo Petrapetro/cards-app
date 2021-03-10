@@ -1,3 +1,7 @@
+import dotenv from 'dotenv'
+
+dotenv.config()
+
 export default {
   mysql: {
     host: process.env.MYSQL_HOST,
@@ -5,5 +9,6 @@ export default {
     password: process.env.MYSQL_PASSWORD,
     database: process.env.MYSQL_DATABASE,
   },
+  port: process.env.PORT,
   secret: process.env.ACCESS_TOKEN_SECRET,
 };
