@@ -17,10 +17,10 @@ const useLoginForm = (initialValues) => {
         .then(response => {
           if (response.status === 200) {
             const { data } = response
-            const { token, username } = data
+            const { token, username, id } = data
             localStorage.setItem('token', token)
             console.log({ username, token })
-            history.push('/')
+            history.push(`/user/${id}`)
           }
         })
         .catch(err => {

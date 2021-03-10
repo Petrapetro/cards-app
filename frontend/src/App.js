@@ -4,10 +4,9 @@ import {
   Switch,
   Route
 } from 'react-router-dom'
-import Auth from './components/auth/Auth'
-import SignUp from './components/signup/SignUp'
 import Main from './components/main/Main'
 import Header from './components/header/Header'
+import Workbench from './components/workbench/Workbench'
 
 function App() {
   return (
@@ -15,14 +14,11 @@ function App() {
       <Header />
       <Router>
         <Switch>
-          <Route path="/cards">
+          <Route path="/welcome">
             <Main />
           </Route>
-          <Route path="/signup">
-            <SignUp />
-          </Route>
-          <Route path="/auth">
-            <Auth />
+          <Route path="/user/:id">
+            <Workbench />
           </Route>
         </Switch>
       </Router>

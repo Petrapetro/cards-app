@@ -21,10 +21,15 @@ export class UserService {
   }
 
   async login(username, password) {
+    console.log("console log from userService")
     if (!username || !password) {
       throw Error("Username and password required!")
     }
-    return this.authService.authenticate(username, password);
+    const token = await this.authService.authenticate(username, password);
+    console.log(token)
+    const id = await this.userRepo.getIdByName(username);
+    console.log(id)
+    return { token, id }
   }
 
   async getUser(authHeader) {

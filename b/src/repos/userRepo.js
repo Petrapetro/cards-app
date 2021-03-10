@@ -2,6 +2,7 @@ export class UserRepo {
   constructor(db) {
     this.db = db;
     this.add = this.add.bind(this)
+    this.getIdByName = this.getIdByName.bind(this)
   }
 
   async existsByUsername(username) {
@@ -33,6 +34,10 @@ export class UserRepo {
       throw Error(`There is no user with name '${username}'.`)
     }
     return usersWithName
+  }
+
+  async getIdByName(username) {
+    return (await this.db('SELECT users.id FROM users WHERE username = ?', [username])).results[0].id
   }
 
   validateInputs(inputs) {
