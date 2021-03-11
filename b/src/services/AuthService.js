@@ -19,20 +19,14 @@ export class AuthService {
     }
 
     async authenticate(username, password) {
-        console.log("AuthService")
-        console.log({ username, password })
         const usersWithName = (await this.userRepo.findByUsername(username))
-        console.log({ usersWithName })
         if (!usersWithName) {
             throw Error("There is no user with this name.")
         }
         if (usersWithName.password) {
-            console.log(await this.decodePassword(password, usersWithName.password))
             if (await this.decodePassword(password, usersWithName.password)) {
                 const secretAccess = config.secret
-                console.log(secretAccess)
                 const accessToken = jwt.sign({ username: username }, secretAccess, { expiresIn: '1h' })
-                console.log({ accessToken })
                 return accessToken
             } else {
                 throw Error("Incorrect password.")

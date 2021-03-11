@@ -1,6 +1,6 @@
 .header-unAuth {
    width: 100%;
-  height: 4em;
+  height: 5em;
   background-color: black;
   margin: 0;
   text-align: center;
@@ -9,19 +9,40 @@
   left: 0;
   z-index: 5;
 }
+.title-unAuth {
+  color: white;
+  margin-top: 0;
+  padding-top: 0.5em;
+}
 .header-Auth {
   width: 100%;
- height: 4em;
+ height: 5em;
  background-color: black;
  margin: 0;
- text-align: left;
  position: fixed;
  top: 0;
  left: 0;
  z-index: 5;
+ display: flex;
+ justify-content: space-between;
 }
-.title {
+.title, .logout, .addNew {
   color: white;
   margin-top: 0;
-  padding-top: 0.3em;
+  padding-top: 0.5em;
+  display: block;
+  margin-left: 2em;
+  margin-right: 2em;
+}
+.logout, .addNew {
+  text-decoration: none;
+  font-size: 0.9em;
+  margin-top: 1.2em;
+  margin-bottom: 1.1em;
+  padding-top: 0.7em;
+  padding-right: 0.8em;
+  padding-left: 0.8em;
+  border-radius: 9999px;
+  border: 2px solid rgb(51, 51, 51);
+  font-weight: bold;
 }

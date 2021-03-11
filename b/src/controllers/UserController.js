@@ -32,10 +32,8 @@ export class UserController {
 
   async authUser(req, res) {
     const { username } = req
-    console.log("authService: ", username)
     try {
     const { name, id } = (await this.userService.getDatasForAuth(username))
-    console.log({ name, id })
     res.status(200).json({ name, id })
     } catch (e) {
       res.status(500).json({ message: e})

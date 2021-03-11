@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import useWorkbench from '../../utils/hooks/workbench'
+import Sets from '../sets/Sets'
 
 function Workbench() {
   const [studySets, setStudySets] = useState([])
@@ -11,18 +12,18 @@ function Workbench() {
     if (response.status === 200) {
       const { data } = response
       const { sets } = data
+      console.log({sets})
       setStudySets(sets)
     }
   })
   .catch(err => {
     console.log({err})
   })
-
-  })
+  }, [])
   return (
     <div className="wrapper">
       <h1>What's Cards?</h1>
-      <p>{studySets}</p>
+      <Sets sets={studySets}></Sets>
     </div>
   )
 }

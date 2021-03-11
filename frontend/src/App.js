@@ -11,11 +11,14 @@ import Header from './components/header/Header'
 import Workbench from './components/workbench/Workbench'
 
 function App() {
-  const [auth, setAuth] = useState({ user: { name: null, id: null }, token: localStorage.getItem('token') })
+  const [auth, setAuth] = useState({ user: localStorage.getItem('user'), token: localStorage.getItem('token') })
 
   useEffect(() => {
     const token = localStorage.getItem("token")
     console.log("token from localStorage: ", token)
+    if (!token) {
+      setAuth({ user: { username: undefined, id: undefined }, token: undefined})
+    }
     if (token) {
       axios.get('http://localhost:3000/auth', {
         headers: {
@@ -32,7 +35,7 @@ function App() {
 
   return (
     <div className="App">
-      <Header />
+      <Header auth={auth} />
       <Router>
         <Switch>
           <Route exact path="/" >

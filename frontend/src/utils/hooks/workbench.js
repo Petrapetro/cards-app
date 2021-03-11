@@ -7,8 +7,10 @@ const useWorkbench = ({sets, id}) => {
   axios.get(`http://localhost:3000/user/${id}`)
   .then(response => {
     if (response.status === 200) {
+      console.log({response})
       const { data } = response
       const { sets } = data
+      console.log({ sets })
       setStudySets(sets)
     }
   })

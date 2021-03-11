@@ -15,9 +15,7 @@ export class UserService {
     if (username.length < 8 || password.length < 8) {
       throw Error("Username and password must be at least 8 characters long.")
     }
-    console.log(await this.userRepo.existsByUsername(username))
     if (await this.userRepo.existsByUsername(username)) {
-      console.log("here we are!")
       throw Error("User is already taken.")
     }
     const hash = await this.authService.getHashedPassword(password);
@@ -30,9 +28,7 @@ export class UserService {
       throw Error("Username and password required!")
     }
     const token = await this.authService.authenticate(username, password);
-    console.log(token)
     const id = await this.userRepo.getIdByName(username);
-    console.log(id)
     return { token, id }
   }
 

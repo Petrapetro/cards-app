@@ -2,11 +2,12 @@ import { decode } from "jsonwebtoken";
 import config from '../config'
 
 
-const authorizedHandler = async (req, res, next) => {
+const authHandler = async (req, res, next) => {
   try {
-        console.log("authHandler: ", req.headers["authorization"])
-    if (req.headers["authorization"] !== null) {
-      const [, token] = req.headers["authorization"].split('Bearer ')
+    console.log("authHandler: ", req.headers)
+        console.log("authHandler: ", req.headers.authorization)
+    if (req.headers.authorization !== null) {
+      const [, token] = req.headers.authorization.split('Bearer ')
       console.log("splitd token: ", token)
       if (token !== null) {
         const { username } = decode(token, config.SECRET)
@@ -20,4 +21,4 @@ const authorizedHandler = async (req, res, next) => {
   }
 }
 
-export default authorizedHandler;
+export default authHandler;
