@@ -3,6 +3,7 @@ export class UserController {
     this.userService = userService
     this.signUp = this.signUp.bind(this)
     this.login = this.login.bind(this)
+    this.authUser = this.authUser.bind(this)
   }
 
   async login({ body }, res) {
@@ -30,10 +31,12 @@ export class UserController {
   }
 
   async authUser(req, res) {
-    const { user: currentUserName } = res
+    const { username } = req
+    console.log("authService: ", username)
     try {
-    const { kingdomName, resources: ress, username, Id } = (await this.userRepo.getDatasForAuth(currentUserName))
-    res.status(200).json({ kingdomName, ress, username, Id })
+    const { name, id } = (await this.userService.getDatasForAuth(username))
+    console.log({ name, id })
+    res.status(200).json({ name, id })
     } catch (e) {
       res.status(500).json({ message: e})
     }

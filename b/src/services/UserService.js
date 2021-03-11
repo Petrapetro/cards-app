@@ -8,6 +8,7 @@ export class UserService {
     this.authService = authService
     this.signUp = this.signUp.bind(this)
     this.login = this.login.bind(this)
+    this.getDatasForAuth = this.getDatasForAuth.bind(this)
   }
 
   async signUp(username, password) {
@@ -41,5 +42,10 @@ export class UserService {
     }
     const [, token] = authHeader.split(' ');
     return jwt.verify(token, config.secret);
+  }
+
+  async getDatasForAuth(name) {
+    const id = await this.userRepo.getIdByName(name)
+    return { name, id }
   }
 }

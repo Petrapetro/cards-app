@@ -19,7 +19,7 @@ const useLoginForm = (initialValues) => {
             const { data } = response
             const { token, username, id } = data
             localStorage.setItem('token', token)
-            console.log({ username, token })
+            console.log({ username, token, id })
             history.push(`/user/${id}`)
           }
         })

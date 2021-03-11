@@ -28,7 +28,7 @@ const useRegForm = (initialValues) => {
         }
       })
         .then(response => {
-          history.push('/welcome')
+          history.push('/')
         })
         .catch(err => {
           const { data } = err.response
