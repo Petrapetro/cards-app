@@ -6,7 +6,7 @@ export class CardController {
 
   async get(req, res) {
     const { params } = req
-    const setId = params.id
+    const setId = params.setid
     console.log("CardController - setId: ", setId)
     try {
       const cards = await this.cardService.getAllBySetId(setId)

@@ -25,8 +25,8 @@ const SetList = ({ userId, sets }) => {
   const [cards, setCards] = useState(null)
   const [setName, setSetName] = useState(null)
 
-  const openSet = (userId, id, setname) => {
-    axios.get(`http://localhost:3000/user/${userId}/set/${id}`)
+  const openSet = (userId, setId, setname) => {
+    axios.get(`http://localhost:3000/user/${userId}/set/${setId}`)
       .then(response => {
         if (response.status === 200) {
           const { data } = response
