@@ -33,13 +33,13 @@ function App() {
 
   return (
     <div className="App">
-      <Header auth={auth} />
       <Router>
+      <Header auth={auth} setAuth={setAuth} />
         <Switch>
           <Route exact path="/" >
             {!auth?.token ? <Main auth={auth} setAuth={setAuth}/> : <Redirect to={`/user/${auth.user.id}`} />}
           </Route>
-          <Route path={`/user/${auth.user.id}`}>
+          <Route path={`/user/${auth?.user?.id}`}>
             {!auth?.token ? <Redirect to="/"/> : <Workbench id={auth.user.id}/>}
           </Route>
         </Switch>

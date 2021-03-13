@@ -1,21 +1,29 @@
+import { AppBar, Toolbar } from '@material-ui/core'
 import React from 'react'
+import { NavLink } from 'react-router-dom'
 import './styles.css'
 
-const Header = ({ auth }) => {
+const Header = ({ auth, setAuth }) => {
+  const logOut = () => {
+    localStorage.clear("token")
+    setAuth({user: null, token: null})
+  }
   return (
-    <div>
-      {auth?.token ?
-        <><div className="header-Auth">
-          <a className="addNew" href="/addNew">Add new Set</a>
-          <h1 className="title">Cards</h1>
-          <a className="logout" href="/logout">Logout</a>
-        </div></>
-        :
-        <><div className="header-unAuth">
-          <h1 className="title-unAuth">Cards</h1>
-        </div></>
-      }
-    </div>
+    <AppBar position="sticky">
+      <Toolbar>
+        {auth?.token ?
+          <><div className="header-Auth">
+            <NavLink className="addNew" to="/">Add new Set</NavLink>
+            <NavLink className="title" to="/">Cards</NavLink>
+            <NavLink className="logout" to="/" onClick={logOut}>Logout</NavLink>
+          </div></>
+          :
+          <><div className="header-unAuth">
+            <NavLink className="title" to="/">Cards</NavLink>
+          </div></>
+        }
+      </Toolbar>
+    </AppBar>
   )
 }
 
