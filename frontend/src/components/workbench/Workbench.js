@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import useWorkbench from '../../utils/hooks/workbench'
 import Sets from '../sets/Sets'
+import './styles.css'
 
 const Workbench = ({ id }) => {
   const [studySets, setStudySets] = useState([])
@@ -21,7 +22,7 @@ const Workbench = ({ id }) => {
   }, [])
   return (
     <div className="wrapper">
-      <h1>What's Cards?</h1>
+      <h1 style={{marginTop: 0}}>Your Sets</h1>
       <Sets sets={studySets}></Sets>
     </div>
   )
