@@ -13,7 +13,7 @@ const Header = ({ auth, setAuth }) => {
       <Toolbar>
         {auth?.token ?
           <><div className="header-Auth">
-            <NavLink className="addNew" to="/">Add new Set</NavLink>
+            <NavLink className="addNew" to={`/user/${auth.user.id}/addNewSet`}>Add new Set</NavLink>
             <NavLink className="title" to="/">Cards</NavLink>
             <NavLink className="logout" to="/" onClick={logOut}>Logout</NavLink>
           </div></>

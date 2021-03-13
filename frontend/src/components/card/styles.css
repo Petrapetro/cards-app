@@ -5,13 +5,9 @@ body,
   padding: 0;
   height: 100%;
   width: 100%;
-  overflow: hidden;
   user-select: none;
   background-image: url('../../utils/img/background.jpg');
   background-size: cover;
-}
-html {
-  overflow-y: scroll;
 }
 .card{
   width: 100%;

@@ -21,5 +21,6 @@ router.post('/login', userController.login)
 router.get('/auth', authHandler, userController.authUser);
 router.get('/user/:id', authHandler, setController.get)
 router.get('/user/:id/set/:setid', authHandler, cardController.get)
+/* router.post('/user/:id/addNewSet', authHandler, setController.add) */
 
 module.exports = router

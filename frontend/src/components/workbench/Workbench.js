@@ -3,7 +3,6 @@ import axios from 'axios'
 import useWorkbench from '../../utils/hooks/workbench'
 import SetList from '../sets/SetList'
 import './styles.css'
-import { Route, Switch } from 'react-router'
 
 const Workbench = ({ id }) => {
   const [studySets, setStudySets] = useState([])
@@ -26,6 +25,6 @@ const Workbench = ({ id }) => {
       <SetList userId={id} sets={studySets} />
     </div>
   )
-}
+  }
 
 export default Workbench
