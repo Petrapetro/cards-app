@@ -5,11 +5,11 @@ import Welcome from '../../components/welcome/Welcome'
 import Cards from '../../components/card/Card'
 import './styles.css'
 
-const Main = () => {
+const Main = ({ auth, setAuth }) => {
   return (
       <div className="main-wrapper">
         <div><Cards children={<Welcome />} name="Welcome!"/></div>
-        <div id="secondCard"><Cards children={<Auth />} name="Login" /></div>
+        <div id="secondCard"><Cards children={<Auth auth={auth} setAuth={setAuth}/>} name="Login" /></div>
         <div id="thirdCard"><Cards children={<SignUp />} name="Sign Up" /></div>
       </div>
   )

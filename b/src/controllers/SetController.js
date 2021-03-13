@@ -7,10 +7,8 @@ export class SetController {
   }
 
   async get(req, res) {
-    console.log({req})
     const { params } = req
     const userId = params.id
-    console.log({userId})
     try {
       const sets = await this.setService.getAllByUserId(userId)
       console.log({ sets })

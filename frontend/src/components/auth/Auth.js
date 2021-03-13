@@ -7,13 +7,13 @@ import {
 } from '@material-ui/core'
 import useLoginForm from '../../utils/hooks/login.js'
 
-const Auth = () => {
+const Auth = ({ auth, setAuth }) => {
 
   const { inputs, handleChange, handleSubmit, loginErrorMessage } = useLoginForm({
     username: '',
     password: '',
     loginErrorMessage: '',
-  })
+  }, auth, setAuth)
 
   return (
     <div>

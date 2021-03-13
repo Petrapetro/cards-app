@@ -29,7 +29,6 @@ export class UserRepo {
   }
 
   async findByUsername(username) {
-    console.log("userRepo")
     const usersWithName = (await this.db('SELECT * FROM users WHERE username = ?', [username])).results[0];
     if (!usersWithName) {
       throw Error(`There is no user with name '${username}'.`)

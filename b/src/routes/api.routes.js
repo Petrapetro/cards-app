@@ -19,6 +19,6 @@ router.get('/hello', (req, res) => {
 router.post('/signup', userController.signUp)
 router.post('/login', userController.login)
 router.get('/auth', authHandler, userController.authUser);
-router.get('/user/:id', setController.get)
+router.get('/user/:id', authHandler, setController.get)
 
 module.exports = router

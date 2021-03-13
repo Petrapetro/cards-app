@@ -11,13 +11,12 @@ import Header from './components/header/Header'
 import Workbench from './components/workbench/Workbench'
 
 function App() {
-  const [auth, setAuth] = useState({ user: localStorage.getItem('user'), token: localStorage.getItem('token') })
+  const [auth, setAuth] = useState({ user: {name: undefined, id: undefined}, token: localStorage.getItem('token') })
 
   useEffect(() => {
     const token = localStorage.getItem("token")
-    console.log("token from localStorage: ", token)
     if (!token) {
-      setAuth({ user: { username: undefined, id: undefined }, token: undefined})
+      setAuth({ user: { name: undefined, id: undefined }, token: undefined})
     }
     if (token) {
       axios.get('http://localhost:3000/auth', {
@@ -26,7 +25,6 @@ function App() {
         }
       }).then(({ data }) => {
         const { name, id } = data
-        console.log({ auth })
         setAuth({ ...auth, user: { name, id } })
       })
         .catch(console.error)
@@ -39,10 +37,10 @@ function App() {
       <Router>
         <Switch>
           <Route exact path="/" >
-            {!auth?.token ? <Main /> : <Redirect to="/user/:id" />}
+            {!auth?.token ? <Main auth={auth} setAuth={setAuth}/> : <Redirect to={`/user/${auth.user.id}`} />}
           </Route>
-          <Route path="/user/:id">
-            {!auth?.token ? <Main /> : <Workbench />}
+          <Route path={`/user/${auth.user.id}`}>
+            {!auth?.token ? <Redirect to="/"/> : <Workbench id={auth.user.id}/>}
           </Route>
         </Switch>
       </Router>

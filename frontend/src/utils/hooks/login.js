@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom'
 
 import axios from 'axios'
 
-const useLoginForm = (initialValues) => {
+const useLoginForm = (initialValues, auth, setAuth) => {
   const [inputs, setInputs] = useState(initialValues)
   const [loginErrorMessage, setLoginErrorMessage] = useState("")
   const history = useHistory()
@@ -17,14 +17,14 @@ const useLoginForm = (initialValues) => {
         .then(response => {
           if (response.status === 200) {
             const { data } = response
-            const { token, username, id } = data
+            const { token, user } = data
+            setAuth({ user, token })
             localStorage.setItem('token', token)
-            localStorage.setItem('user', { username, id })
-            console.log({ username, token, id })
-            history.push(`/user/${id}`)
+            history.push(`/user/${user.id}`)
           }
         })
         .catch(err => {
+          console.error(err)
           const { data } = err.response
           const { message } = data
           setLoginErrorMessage(message)

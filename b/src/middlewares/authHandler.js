@@ -4,19 +4,16 @@ import config from '../config'
 
 const authHandler = async (req, res, next) => {
   try {
-    console.log("authHandler: ", req.headers)
-        console.log("authHandler: ", req.headers.authorization)
-    if (req.headers.authorization !== null) {
-      const [, token] = req.headers.authorization.split('Bearer ')
-      console.log("splitd token: ", token)
+    if (req.headers["authorization"]) {
+      const [, token] = req.headers["authorization"].split('Bearer ')
       if (token !== null) {
         const { username } = decode(token, config.SECRET)
-        console.log({ username })
         req.username = username
       }
     }
     next()
   } catch (e) {
+    console.error(e)
     res.status(401).json({ message: "Unauthorized" })
   }
 }

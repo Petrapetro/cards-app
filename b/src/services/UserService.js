@@ -23,7 +23,6 @@ export class UserService {
   }
 
   async login(username, password) {
-    console.log("console log from userService")
     if (!username || !password) {
       throw Error("Username and password required!")
     }

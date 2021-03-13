@@ -3,22 +3,21 @@ import axios from 'axios'
 import useWorkbench from '../../utils/hooks/workbench'
 import Sets from '../sets/Sets'
 
-function Workbench() {
+const Workbench = ({ id }) => {
   const [studySets, setStudySets] = useState([])
 
   useEffect(() => {
-    axios.get(`http://localhost:3000/user/:id`)
-  .then(response => {
-    if (response.status === 200) {
-      const { data } = response
-      const { sets } = data
-      console.log({sets})
-      setStudySets(sets)
-    }
-  })
-  .catch(err => {
-    console.log({err})
-  })
+    axios.get(`http://localhost:3000/user/${id}`)
+      .then(response => {
+        if (response.status === 200) {
+          const { data } = response
+          const { sets } = data
+          setStudySets(sets)
+        }
+      })
+      .catch(err => {
+        console.log({ err })
+      })
   }, [])
   return (
     <div className="wrapper">

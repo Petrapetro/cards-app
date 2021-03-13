@@ -4,7 +4,8 @@ const Sets = ({sets}) => {
   return (
     <div>
       <h1>Sets</h1>
-      {sets}
+      {sets.map(({ id, setname }, index) =>
+      <p key={`${index}-set`}>{id}{setname}</p>)}
     </div>
   )
 }
