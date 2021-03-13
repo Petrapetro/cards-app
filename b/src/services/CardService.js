@@ -3,4 +3,8 @@ export class CardService {
     this.cardRepo = cardRepo
   }
 
+  async getAllBySetId(setId) {
+    console.log("CardsService")
+    return this.cardRepo.getAllById(setId)
+  }
 }

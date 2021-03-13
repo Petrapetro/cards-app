@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import useWorkbench from '../../utils/hooks/workbench'
-import Sets from '../sets/Sets'
+import SetList from '../sets/SetList'
 import './styles.css'
+import { Route, Switch } from 'react-router'
 
 const Workbench = ({ id }) => {
   const [studySets, setStudySets] = useState([])
@@ -22,8 +23,7 @@ const Workbench = ({ id }) => {
   }, [])
   return (
     <div className="wrapper-workbench">
-      <h1 style={{marginTop: 0}}>Your Sets</h1>
-      <Sets sets={studySets}></Sets>
+      <SetList userId={id} sets={studySets} />
     </div>
   )
 }
