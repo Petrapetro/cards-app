@@ -21,7 +21,7 @@ const Workbench = ({ id }) => {
       })
   }, [])
   return (
-    <div className="wrapper">
+    <div className="wrapper-workbench">
       <h1 style={{marginTop: 0}}>Your Sets</h1>
       <Sets sets={studySets}></Sets>
     </div>

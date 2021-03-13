@@ -18,7 +18,7 @@ const useStyles = makeStyles({
 const Sets = ({ sets }) => {
   const useStyles = makeStyles({
     table: {
-      minWidth: 650,
+      minWidth: 500,
     },
   });
 
