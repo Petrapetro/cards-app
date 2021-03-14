@@ -24,6 +24,9 @@ const SetList = ({ userId, sets }) => {
 
   const [cards, setCards] = useState(null)
   const [setName, setSetName] = useState(null)
+  const [learnMode, setLearnMode] = useState(null)
+
+  
 
   const openSet = (userId, setId, setname) => {
     axios.get(`http://localhost:3000/user/${userId}/set/${setId}`)
@@ -41,6 +44,30 @@ const SetList = ({ userId, sets }) => {
       })
   }
 
+  const learnSet = (userId, setId, setname) => {
+    axios.get(`http://localhost:3000/user/${userId}/set/${setId}`)
+      .then(response => {
+        if (response.status === 200) {
+          const { data } = response
+          const { cards } = data
+          setCards(cards)
+          setSetName(setname)
+          console.log({ cards })
+        }
+      })
+      .catch(err => {
+        console.log({ err })
+      })
+  }
+
+  const editSet = () => {
+
+  }
+
+  const deleteSet = () => {
+
+  }
+
   return (
     <div>
       {setName === null ?
@@ -54,7 +81,8 @@ const SetList = ({ userId, sets }) => {
           <TableHead>
             <TableRow>
               {cards === null &&
-              <TableCell>Title</TableCell>
+              <><TableCell>Title</TableCell>
+              <TableCell align="right">Learn</TableCell></>
               }
               {cards !== null &&
               <><TableCell>Text</TableCell>
@@ -71,8 +99,15 @@ const SetList = ({ userId, sets }) => {
                 <TableCell component="th" scope="row">
                   <NavLink to={`/user/${userId}/set/${id}`} onClick={() => openSet(userId, id, setname)}>{setname}</NavLink>
                 </TableCell>
-                <TableCell align="right">edit</TableCell>
-                <TableCell align="right">delete</TableCell>
+                <TableCell align="right">
+                <NavLink to={`/user/${userId}/set/${id}/learn`} onClick={() => learnSet(userId, id, setname)}>Learn {setname}</NavLink>
+                </TableCell>
+                <TableCell align="right">
+                <NavLink to={`/user/${userId}/set/${id}/edit`} onClick={() => editSet(userId, id, setname)}>Edit</NavLink>
+                </TableCell>
+                <TableCell align="right">
+                <NavLink to={`/user/${userId}/set/${id}/delete`} onClick={() => deleteSet(userId, id, setname)}>Delete</NavLink>
+                </TableCell>
               </TableRow>
             ))}
             {cards !== null &&
@@ -87,9 +122,6 @@ const SetList = ({ userId, sets }) => {
           </TableBody>
         </Table>
       </TableContainer>
-{/*       <Switch>
-        {sets.map(({ id }) => ())}
-      </Switch> */}
     </div>
   )
 }

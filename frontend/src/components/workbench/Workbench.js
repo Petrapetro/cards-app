@@ -3,6 +3,11 @@ import axios from 'axios'
 import useWorkbench from '../../utils/hooks/workbench'
 import SetList from '../sets/SetList'
 import './styles.css'
+import {
+  Switch,
+  Route,
+} from 'react-router-dom'
+import SetForm from '../addNewSet/SetForm'
 
 const Workbench = ({ id }) => {
   const [studySets, setStudySets] = useState([])
@@ -20,11 +25,19 @@ const Workbench = ({ id }) => {
         console.log({ err })
       })
   }, [])
+
   return (
     <div className="wrapper-workbench">
-      <SetList userId={id} sets={studySets} />
+      <Switch>
+        <Route exact path={`/user/${id}`}>
+          {<SetList userId={id} sets={studySets} />}
+        </Route>
+        <Route path={`/user/${id}/addNewSet`}>
+          {<SetForm userId={id}/>}
+          </Route>
+      </Switch>
     </div>
   )
-  }
+}
 
 export default Workbench
