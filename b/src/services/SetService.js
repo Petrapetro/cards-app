@@ -6,4 +6,8 @@ export class SetService {
   async getAllByUserId(userId) {
     return this.setRepo.getAllById(userId)
   }
+
+  async add(userId, setname) {
+    return this.setRepo.add(userId, setname)
+  }
 }

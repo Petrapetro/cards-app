@@ -5,13 +5,15 @@ import {
   TextField
 } from '@material-ui/core'
 import React, { useState } from 'react'
+import axios from 'axios'
+import { useHistory } from 'react-router'
 
 const SetForm = ({ userId }) => {
-  const [cards, setCards] = useState([])
+  const [cards, setCards] = useState([[]])
   const [setname, setSetname] = useState(undefined)
   const [text, setText] = useState(undefined)
   const [flippedText, setFlippedText] = useState(undefined)
-  const [words, setWords] = useState([[]])
+  const history = useHistory()
 
   const handleChange = (e) => {
     e.persist()
@@ -29,22 +31,36 @@ const SetForm = ({ userId }) => {
   const addWord = () => {
     if (text !== undefined && flippedText !== undefined &&
       text !== '' && flippedText !== '') {
-      if(words[0] === []) {
-        console.log({words})
-        setWords({text, flippedText})
-        setWords(words.shift())
+      if(cards[0] === []) {
+        console.log({cards})
+        setCards({text, flippedText})
+        setCards(cards.shift())
       } else {
-        setWords([...words, {text, flippedText}])
+        setCards([...cards, {text, flippedText}])
       }
-      console.log({ words })
+      console.log({ cards })
       setText('')
       setFlippedText('')
     }
 
   }
 
-  const handleSubmit = () => {
-
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    if (setname) {
+      axios.post(`http://localhost:3000/user/${userId}/addNewSet`, { setname, cards })
+        .then(response => {
+          if (response.status === 200) {
+            history.push(`/user/${userId}`)
+          }
+        })
+        .catch(err => {
+          console.error(err)
+          const { data } = err.response
+          const { message } = data
+          console.error(message)
+        })
+    }
   }
   return (
     <div>
@@ -59,8 +75,8 @@ const SetForm = ({ userId }) => {
           value={setname}
           onChange={(e) => handleChange(e)}
         />
-        {words.map(({text, flippedText}, index) => (
-          index > 0 && index !== words.length-1 &&
+        {cards.map(({text, flippedText}, index) => (
+          index > 0 &&
           <><p>{`${index}`} Text: {`${text}`} Flipped Text: {`${flippedText}`}</p></>))}
               <FormControl>
                 <TextField
