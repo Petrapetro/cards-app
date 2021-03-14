@@ -8,11 +8,11 @@ import {
   TableHead,
   TableRow
 } from '@material-ui/core'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { NavLink } from 'react-router-dom';
 import axios from 'axios'
 
-const SetList = ({ userId, sets }) => {
+const SetList = ({ userId }) => {
   const useStyles = makeStyles({
     table: {
       minWidth: 200,
@@ -22,11 +22,24 @@ const SetList = ({ userId, sets }) => {
 
   const classes = useStyles();
 
-  const [cards, setCards] = useState(null)
+  const [cardSet, setCardSet] = useState(undefined)
+  const [sets, setSets] = useState(null)
   const [setName, setSetName] = useState(null)
   const [learnMode, setLearnMode] = useState(null)
 
-  
+  useEffect(() => {
+    axios.get(`http://localhost:3000/user/${userId}`)
+      .then(response => {
+        if (response.status === 200) {
+          const { data } = response
+          const { sets } = data
+          setSets(sets)
+        }
+      })
+      .catch(err => {
+        console.log({ err })
+      })
+  }, [])
 
   const openSet = (userId, setId, setname) => {
     axios.get(`http://localhost:3000/user/${userId}/set/${setId}`)
@@ -34,9 +47,10 @@ const SetList = ({ userId, sets }) => {
         if (response.status === 200) {
           const { data } = response
           const { cards } = data
-          setCards(cards)
+          console.log({cards})
+          setCardSet({cards})
           setSetName(setname)
-          console.log({ cards })
+          console.log({ cardSet })
         }
       })
       .catch(err => {
@@ -50,9 +64,9 @@ const SetList = ({ userId, sets }) => {
         if (response.status === 200) {
           const { data } = response
           const { cards } = data
-          setCards(cards)
+          setCardSet(cards)
           setSetName(setname)
-          console.log({ cards })
+          console.log({ cardSet })
         }
       })
       .catch(err => {
@@ -70,7 +84,7 @@ const SetList = ({ userId, sets }) => {
 
   return (
     <div>
-      {setName === null ?
+      {setName === undefined ?
       <h1 style={{ marginTop: 0 }}>Your Sets</h1>
       :
       <h1 style={{ marginTop: 0 }}>{setName}</h1>
@@ -80,11 +94,11 @@ const SetList = ({ userId, sets }) => {
         <Table className={classes.table} aria-label="simple table">
           <TableHead>
             <TableRow>
-              {cards === null &&
+              {cardSet === undefined &&
               <><TableCell>Title</TableCell>
               <TableCell align="right">Learn</TableCell></>
               }
-              {cards !== null &&
+              {cardSet !== undefined &&
               <><TableCell>Text</TableCell>
               <TableCell>Flipped Text</TableCell></>
               }
@@ -93,7 +107,7 @@ const SetList = ({ userId, sets }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {cards === null &&
+            {cardSet === undefined && sets !== null &&
             sets.map(({ id, setname }) => (
               <TableRow key={id}>
                 <TableCell component="th" scope="row">
@@ -110,8 +124,8 @@ const SetList = ({ userId, sets }) => {
                 </TableCell>
               </TableRow>
             ))}
-            {cards !== null &&
-            cards.map(({text, flippedText}, index) => (
+            {cardSet !== undefined &&
+            cardSet.map(({text, flippedText}, index) => (
               <TableRow key={index}>
                 <TableCell>{text}</TableCell>
                 <TableCell>{flippedText}</TableCell>

@@ -10,27 +10,12 @@ import {
 import SetForm from '../addNewSet/SetForm'
 
 const Workbench = ({ id }) => {
-  const [studySets, setStudySets] = useState([])
-
-  useEffect(() => {
-    axios.get(`http://localhost:3000/user/${id}`)
-      .then(response => {
-        if (response.status === 200) {
-          const { data } = response
-          const { sets } = data
-          setStudySets(sets)
-        }
-      })
-      .catch(err => {
-        console.log({ err })
-      })
-  }, [])
 
   return (
     <div className="wrapper-workbench">
       <Switch>
         <Route exact path={`/user/${id}`}>
-          {<SetList userId={id} sets={studySets} />}
+          {<SetList userId={id} />}
         </Route>
         <Route path={`/user/${id}/addNewSet`}>
           {<SetForm userId={id}/>}
