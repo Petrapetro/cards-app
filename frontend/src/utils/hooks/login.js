@@ -15,9 +15,11 @@ const useLoginForm = (initialValues, auth, setAuth) => {
     } else {
       axios.post("http://localhost:3000/login", inputs)
         .then(response => {
+          console.log({response})
           if (response.status === 200) {
             const { data } = response
             const { token, user } = data
+            console.log({token, user })
             setAuth({ user, token })
             localStorage.setItem('token', token)
             history.push(`/user/${user.id}`)

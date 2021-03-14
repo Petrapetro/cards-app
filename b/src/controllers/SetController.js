@@ -15,17 +15,22 @@ export class SetController {
       const sets = await this.setService.getAllByUserId(userId)
       console.log({ sets })
       res.status(200).json({ sets })
-    } catch (e){
+    } catch (e) {
       res.status(500).json({ message: e.message })
     }
   }
 
-  async add (req, res) {
-    const { setname, cards, params } = req
+  async add(req, res) {
+    const { params, body } = req
+    const { setname, cards } = body
+    console.log({ setname, cards })
     const userId = params.id
+    console.log({ userId })
     try {
       const set = await this.setService.add(userId, setname)
-      const cardSet = await this.cardService.add(set.id, cards)
+      const setId = set["insertId"]
+      console.log({set})
+      const cardSet = await this.cardService.add(setId, cards)
       res.status(200).json({ set, cardSet })
     } catch (e) {
       res.status(500).json({ message: e.message })

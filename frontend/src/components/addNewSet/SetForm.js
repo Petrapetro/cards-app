@@ -9,7 +9,7 @@ import axios from 'axios'
 import { useHistory } from 'react-router'
 
 const SetForm = ({ userId }) => {
-  const [cards, setCards] = useState([[]])
+  const [cards, setCards] = useState([{}])
   const [setname, setSetname] = useState(undefined)
   const [text, setText] = useState(undefined)
   const [flippedText, setFlippedText] = useState(undefined)
@@ -31,10 +31,11 @@ const SetForm = ({ userId }) => {
   const addWord = () => {
     if (text !== undefined && flippedText !== undefined &&
       text !== '' && flippedText !== '') {
-      if(cards[0] === []) {
+        console.log(cards[0])
+      if(cards[0] === {}) {
         console.log({cards})
         setCards({text, flippedText})
-        setCards(cards.shift())
+        console.log({cards})
       } else {
         setCards([...cards, {text, flippedText}])
       }
@@ -48,7 +49,8 @@ const SetForm = ({ userId }) => {
   const handleSubmit = (e) => {
     e.preventDefault()
     if (setname) {
-      axios.post(`http://localhost:3000/user/${userId}/addNewSet`, { setname, cards })
+      const inputs = { setname, cards }
+      axios.post(`http://localhost:3000/user/${userId}/addNewSet`, inputs)
         .then(response => {
           if (response.status === 200) {
             history.push(`/user/${userId}`)

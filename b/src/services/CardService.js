@@ -7,4 +7,8 @@ export class CardService {
     console.log("CardsService")
     return this.cardRepo.getAllById(setId)
   }
+
+  async add(setId, cards) {
+    return this.cardRepo.add(setId, cards)
+  }
 }

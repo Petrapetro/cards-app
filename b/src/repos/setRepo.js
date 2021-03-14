@@ -8,6 +8,6 @@ export class SetRepo {
   }
 
   async add(userId, setname) {
-    return (await this.db('INSERT INTO sets(setname, userId) VALUES (?,?)', [setname, userId]))
+    return (await this.db('INSERT INTO sets(setname, userId) VALUES (?,?)', [setname, userId])).results
   }
 }
