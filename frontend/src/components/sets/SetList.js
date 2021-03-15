@@ -1,4 +1,5 @@
 import {
+  Button,
   makeStyles,
   Table,
   TableBody,
@@ -23,9 +24,9 @@ const SetList = ({ userId }) => {
   const classes = useStyles();
   const history = useHistory()
 
-  const [cardSet, setCardSet] = useState(undefined)
   const [studySets, setStudySets] = useState(null)
   const [setName, setSetName] = useState(null)
+  const [cardSet, setCardSet] = useState(undefined)
 
   useEffect(() => {
     axios.get(`http://localhost:3000/user/${userId}`)
@@ -39,19 +40,18 @@ const SetList = ({ userId }) => {
       .catch(err => {
         console.log({ err })
       })
+      return () => {}
   }, [])
 
   const openSet = (userId, setId, setname) => {
     axios.get(`http://localhost:3000/user/${userId}/set/${setId}`)
       .then(response => {
         if (response.status === 200) {
+          console.log(response, setname)
           const { data } = response
           const { cards } = data
-          console.log({ cards })
-          setCardSet({ cards })
-          console.log(setCardSet({ cards }))
           setSetName(setname)
-          console.log({ cardSet })
+          setCardSet(cards) 
         }
       })
       .catch(err => {
@@ -91,7 +91,7 @@ const SetList = ({ userId }) => {
         console.log({ err })
       })
   }
-
+  console.log({ setName, studySets, cardSet })
   return (
     <div>
       {setName === undefined ?
@@ -110,9 +110,9 @@ const SetList = ({ userId }) => {
               }
               {cardSet !== undefined &&
                 <><TableCell>Text</TableCell>
-                  <TableCell>Flipped Text</TableCell></>
+                  <TableCell>Flipped Text</TableCell>
+                  <TableCell>Edit</TableCell></>
               }
-              <TableCell align="right">Edit</TableCell>
               <TableCell align="right">Delete</TableCell>
             </TableRow>
           </TableHead>
@@ -121,13 +121,10 @@ const SetList = ({ userId }) => {
               studySets.map(({ id, setname }) => (
                 <TableRow key={id}>
                   <TableCell component="th" scope="row">
-                    <NavLink to={`/user/${userId}/set/${id}`} onClick={() => openSet(userId, id, setname)}>{setname}</NavLink>
+                    <Button onClick={() => openSet(userId, id, setname)}>{setname}</Button>
                   </TableCell>
                   <TableCell align="right">
                     <NavLink to={`/user/${userId}/set/${id}/learn`} onClick={() => learnSet(userId, id, setname)}>Learn {setname}</NavLink>
-                  </TableCell>
-                  <TableCell align="right">
-                    <NavLink to={`/user/${userId}/set/${id}/edit`} onClick={() => editSet(userId, id, setname)}>Edit</NavLink>
                   </TableCell>
                   <TableCell align="right">
                     <NavLink to={`/user/${userId}/set/${id}/delete`} onClick={() => deleteSet(userId, id)}>Delete</NavLink>
@@ -139,7 +136,7 @@ const SetList = ({ userId }) => {
                 <TableRow key={index}>
                   <TableCell>{text}</TableCell>
                   <TableCell>{flippedText}</TableCell>
-                  <TableCell align="right">edit</TableCell>
+                  <TableCell>edit</TableCell>
                   <TableCell align="right">delete</TableCell>
                 </TableRow>
               ))}
