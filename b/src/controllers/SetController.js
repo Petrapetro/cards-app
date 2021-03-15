@@ -6,6 +6,7 @@ export class SetController {
     this.cardService = cardService
     this.get = this.get.bind(this)
     this.add = this.add.bind(this)
+    this.delete = this.delete.bind(this)
   }
 
   async get(req, res) {
@@ -41,9 +42,9 @@ export class SetController {
     const { params } = req
     const setId = params.setid
     try {
-      const messageFromSetService = await this.setService.delete(setId)
-      const messageFromCardService = await this.cardService.delete(setId)
-      res.status(200).json({ message: { messageFromSetService, messageFromCardService } })
+      this.cardService.delete(setId)
+      this.setService.delete(setId)
+      res.status(200).json({ message: `You deleted set with id: ${setId}`})
     } catch (e) {
       res.status(500).json({ message: e.message })
     }

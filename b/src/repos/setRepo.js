@@ -12,6 +12,6 @@ export class SetRepo {
   }
 
   async delete(setId) {
-    return (await this.db('DELETE FROM sets WHERE id = ?', [setId])).results
+    this.db('DELETE FROM sets WHERE id = ?', [setId])
   }
 }

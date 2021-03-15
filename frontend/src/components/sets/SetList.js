@@ -1,6 +1,5 @@
 import {
   makeStyles,
-  Switch,
   Table,
   TableBody,
   TableCell,
@@ -11,6 +10,7 @@ import {
 import React, { useState, useEffect } from 'react'
 import { NavLink } from 'react-router-dom';
 import axios from 'axios'
+import { useHistory } from 'react-router-dom'
 
 const SetList = ({ userId }) => {
   const useStyles = makeStyles({
@@ -21,11 +21,11 @@ const SetList = ({ userId }) => {
   });
 
   const classes = useStyles();
+  const history = useHistory()
 
   const [cardSet, setCardSet] = useState(undefined)
   const [studySets, setStudySets] = useState(null)
   const [setName, setSetName] = useState(null)
-  const [learnMode, setLearnMode] = useState(null)
 
   useEffect(() => {
     axios.get(`http://localhost:3000/user/${userId}`)
@@ -47,7 +47,7 @@ const SetList = ({ userId }) => {
         if (response.status === 200) {
           const { data } = response
           const { cards } = data
-          console.log({cards})
+          console.log({ cards })
           setCardSet({ cards })
           console.log(setCardSet({ cards }))
           setSetName(setname)
@@ -79,39 +79,38 @@ const SetList = ({ userId }) => {
 
   }
 
-  const deleteSet = () => {
+  const deleteSet = (userId, setId) => {
     axios.delete(`http://localhost:3000/user/${userId}/set/${setId}`)
-    .then(response => {
-      if (response.status === 200) {
+      .then(response => {
         const { data } = response
         const { message } = data
-        console.log(message)
-      }
-    })
-    .catch(err => {
-      console.log({ err })
-    })
+        console.log({ message })
+        history.push(`/user/${userId}`)
+      })
+      .catch(err => {
+        console.log({ err })
+      })
   }
 
   return (
     <div>
       {setName === undefined ?
-      <h1 style={{ marginTop: 0 }}>Your Sets</h1>
-      :
-      <h1 style={{ marginTop: 0 }}>{setName}</h1>
+        <h1 style={{ marginTop: 0 }}>Your Sets</h1>
+        :
+        <h1 style={{ marginTop: 0 }}>{setName}</h1>
       }
-  
+
       <TableContainer>
         <Table className={classes.table} aria-label="simple table">
           <TableHead>
             <TableRow>
               {cardSet === undefined &&
-              <><TableCell>Title</TableCell>
-              <TableCell align="right">Learn</TableCell></>
+                <><TableCell>Title</TableCell>
+                  <TableCell align="right">Learn</TableCell></>
               }
               {cardSet !== undefined &&
-              <><TableCell>Text</TableCell>
-              <TableCell>Flipped Text</TableCell></>
+                <><TableCell>Text</TableCell>
+                  <TableCell>Flipped Text</TableCell></>
               }
               <TableCell align="right">Edit</TableCell>
               <TableCell align="right">Delete</TableCell>
@@ -119,31 +118,31 @@ const SetList = ({ userId }) => {
           </TableHead>
           <TableBody>
             {cardSet === undefined && studySets !== null &&
-            studySets.map(({ id, setname }) => (
-              <TableRow key={id}>
-                <TableCell component="th" scope="row">
-                  <NavLink to={`/user/${userId}/set/${id}`} onClick={() => openSet(userId, id, setname)}>{setname}</NavLink>
-                </TableCell>
-                <TableCell align="right">
-                <NavLink to={`/user/${userId}/set/${id}/learn`} onClick={() => learnSet(userId, id, setname)}>Learn {setname}</NavLink>
-                </TableCell>
-                <TableCell align="right">
-                <NavLink to={`/user/${userId}/set/${id}/edit`} onClick={() => editSet(userId, id, setname)}>Edit</NavLink>
-                </TableCell>
-                <TableCell align="right">
-                <NavLink to={`/user/${userId}/set/${id}/delete`} onClick={() => deleteSet(userId, id, setname)}>Delete</NavLink>
-                </TableCell>
-              </TableRow>
-            ))}
+              studySets.map(({ id, setname }) => (
+                <TableRow key={id}>
+                  <TableCell component="th" scope="row">
+                    <NavLink to={`/user/${userId}/set/${id}`} onClick={() => openSet(userId, id, setname)}>{setname}</NavLink>
+                  </TableCell>
+                  <TableCell align="right">
+                    <NavLink to={`/user/${userId}/set/${id}/learn`} onClick={() => learnSet(userId, id, setname)}>Learn {setname}</NavLink>
+                  </TableCell>
+                  <TableCell align="right">
+                    <NavLink to={`/user/${userId}/set/${id}/edit`} onClick={() => editSet(userId, id, setname)}>Edit</NavLink>
+                  </TableCell>
+                  <TableCell align="right">
+                    <NavLink to={`/user/${userId}/set/${id}/delete`} onClick={() => deleteSet(userId, id)}>Delete</NavLink>
+                  </TableCell>
+                </TableRow>
+              ))}
             {cardSet !== undefined &&
-            cardSet.map(({text, flippedText}, index) => (
-              <TableRow key={index}>
-                <TableCell>{text}</TableCell>
-                <TableCell>{flippedText}</TableCell>
-                <TableCell align="right">edit</TableCell>
-                <TableCell align="right">delete</TableCell>
-              </TableRow>
-            ))}
+              cardSet.map(({ text, flippedText }, index) => (
+                <TableRow key={index}>
+                  <TableCell>{text}</TableCell>
+                  <TableCell>{flippedText}</TableCell>
+                  <TableCell align="right">edit</TableCell>
+                  <TableCell align="right">delete</TableCell>
+                </TableRow>
+              ))}
           </TableBody>
         </Table>
       </TableContainer>

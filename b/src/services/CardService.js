@@ -9,7 +9,15 @@ export class CardService {
   }
 
   async add(setId, cards) {
-    return this.cardRepo.add(setId, cards)
+    console.log("cardService")
+    cards.map((text) => {
+      console.log({ text, setId })
+      console.log(text.text)
+      if (text.text) {
+        this.cardRepo.add(text.text, text.flippedText, setId)
+      }
+    })
+    return this.getAllBySetId(setId)
   }
 
   async delete(setId) {

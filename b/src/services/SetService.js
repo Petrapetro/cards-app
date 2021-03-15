@@ -12,6 +12,7 @@ export class SetService {
   }
 
   async delete(setId) {
+    console.log("setService")
     return this.setRepo.delete(setId)
   }
 }
