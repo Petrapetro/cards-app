@@ -19,4 +19,8 @@ export class CardRepo {
     })
     return this.getAllById(setId)
   }
+
+  async delete(setId) {
+    return (await this.db('DELETE FROM cards WHERE setId = ?', [setId])).results
+  }
 }

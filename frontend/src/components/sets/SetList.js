@@ -23,7 +23,7 @@ const SetList = ({ userId }) => {
   const classes = useStyles();
 
   const [cardSet, setCardSet] = useState(undefined)
-  const [sets, setSets] = useState(null)
+  const [studySets, setStudySets] = useState(null)
   const [setName, setSetName] = useState(null)
   const [learnMode, setLearnMode] = useState(null)
 
@@ -33,7 +33,7 @@ const SetList = ({ userId }) => {
         if (response.status === 200) {
           const { data } = response
           const { sets } = data
-          setSets(sets)
+          setStudySets(sets)
         }
       })
       .catch(err => {
@@ -48,7 +48,8 @@ const SetList = ({ userId }) => {
           const { data } = response
           const { cards } = data
           console.log({cards})
-          setCardSet({cards})
+          setCardSet({ cards })
+          console.log(setCardSet({ cards }))
           setSetName(setname)
           console.log({ cardSet })
         }
@@ -79,7 +80,17 @@ const SetList = ({ userId }) => {
   }
 
   const deleteSet = () => {
-
+    axios.delete(`http://localhost:3000/user/${userId}/set/${setId}`)
+    .then(response => {
+      if (response.status === 200) {
+        const { data } = response
+        const { message } = data
+        console.log(message)
+      }
+    })
+    .catch(err => {
+      console.log({ err })
+    })
   }
 
   return (
@@ -107,8 +118,8 @@ const SetList = ({ userId }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {cardSet === undefined && sets !== null &&
-            sets.map(({ id, setname }) => (
+            {cardSet === undefined && studySets !== null &&
+            studySets.map(({ id, setname }) => (
               <TableRow key={id}>
                 <TableCell component="th" scope="row">
                   <NavLink to={`/user/${userId}/set/${id}`} onClick={() => openSet(userId, id, setname)}>{setname}</NavLink>

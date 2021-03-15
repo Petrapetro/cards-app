@@ -36,4 +36,16 @@ export class SetController {
       res.status(500).json({ message: e.message })
     }
   }
+
+  async delete(req, res) {
+    const { params } = req
+    const setId = params.setid
+    try {
+      const messageFromSetService = await this.setService.delete(setId)
+      const messageFromCardService = await this.cardService.delete(setId)
+      res.status(200).json({ message: { messageFromSetService, messageFromCardService } })
+    } catch (e) {
+      res.status(500).json({ message: e.message })
+    }
+  }
 }

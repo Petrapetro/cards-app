@@ -11,4 +11,8 @@ export class CardService {
   async add(setId, cards) {
     return this.cardRepo.add(setId, cards)
   }
+
+  async delete(setId) {
+    return this.cardRepo.delete(setId)
+  }
 }

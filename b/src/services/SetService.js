@@ -10,4 +10,8 @@ export class SetService {
   async add(userId, setname) {
     return this.setRepo.add(userId, setname)
   }
+
+  async delete(setId) {
+    return this.setRepo.delete(setId)
+  }
 }
