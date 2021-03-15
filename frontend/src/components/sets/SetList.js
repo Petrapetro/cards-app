@@ -25,8 +25,9 @@ const SetList = ({ userId }) => {
   const history = useHistory()
 
   const [studySets, setStudySets] = useState(null)
-  const [setName, setSetName] = useState(null)
+  const [name, setName] = useState(null)
   const [cardSet, setCardSet] = useState(undefined)
+  const [studySetId, setStudySetId] = useState(undefined)
 
   useEffect(() => {
     axios.get(`http://localhost:3000/user/${userId}`)
@@ -40,7 +41,6 @@ const SetList = ({ userId }) => {
       .catch(err => {
         console.log({ err })
       })
-      return () => {}
   }, [])
 
   const openSet = (userId, setId, setname) => {
@@ -50,8 +50,9 @@ const SetList = ({ userId }) => {
           console.log(response, setname)
           const { data } = response
           const { cards } = data
-          setSetName(setname)
+          setName(setname)
           setCardSet(cards) 
+          setStudySetId(setId)
         }
       })
       .catch(err => {
@@ -66,7 +67,7 @@ const SetList = ({ userId }) => {
           const { data } = response
           const { cards } = data
           setCardSet(cards)
-          setSetName(setname)
+          setName(setname)
           console.log({ cardSet })
         }
       })
@@ -91,13 +92,26 @@ const SetList = ({ userId }) => {
         console.log({ err })
       })
   }
-  console.log({ setName, studySets, cardSet })
+
+  const deleteCard = (cardId) => {
+    axios.delete(`http://localhost:3000/user/${userId}/set/${studySetId}/card/${cardId}`)
+    .then(response => {
+      const { data } = response
+      const { message } = data
+      console.log({ message })
+      openSet(userId, studySetId, name) 
+    })
+    .catch(err => {
+      console.log({ err })
+    })
+  }
+
   return (
     <div>
-      {setName === undefined ?
+      {name === undefined ?
         <h1 style={{ marginTop: 0 }}>Your Sets</h1>
         :
-        <h1 style={{ marginTop: 0 }}>{setName}</h1>
+        <h1 style={{ marginTop: 0 }}>{name}</h1>
       }
 
       <TableContainer>
@@ -124,20 +138,22 @@ const SetList = ({ userId }) => {
                     <Button onClick={() => openSet(userId, id, setname)}>{setname}</Button>
                   </TableCell>
                   <TableCell align="right">
-                    <NavLink to={`/user/${userId}/set/${id}/learn`} onClick={() => learnSet(userId, id, setname)}>Learn {setname}</NavLink>
+                    <Button onClick={() => learnSet(userId, id, setname)}>Learn {setname}</Button>
                   </TableCell>
                   <TableCell align="right">
-                    <NavLink to={`/user/${userId}/set/${id}/delete`} onClick={() => deleteSet(userId, id)}>Delete</NavLink>
+                    <Button onClick={() => deleteSet(userId, id)}>Delete</Button>
                   </TableCell>
                 </TableRow>
               ))}
             {cardSet !== undefined &&
-              cardSet.map(({ text, flippedText }, index) => (
-                <TableRow key={index}>
+              cardSet.map(({ text, flippedText, id }) => (
+                <TableRow key={id}>
                   <TableCell>{text}</TableCell>
                   <TableCell>{flippedText}</TableCell>
                   <TableCell>edit</TableCell>
-                  <TableCell align="right">delete</TableCell>
+                  <TableCell align="right">
+                  <Button onClick={() => deleteCard(id)}>Delete</Button>
+                  </TableCell>
                 </TableRow>
               ))}
           </TableBody>

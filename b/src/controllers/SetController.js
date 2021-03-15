@@ -42,7 +42,7 @@ export class SetController {
     const { params } = req
     const setId = params.setid
     try {
-      this.cardService.delete(setId)
+      this.cardService.deleteSetWithCards(setId)
       this.setService.delete(setId)
       res.status(200).json({ message: `You deleted set with id: ${setId}`})
     } catch (e) {

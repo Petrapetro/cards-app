@@ -20,7 +20,11 @@ export class CardService {
     return this.getAllBySetId(setId)
   }
 
-  async delete(setId) {
-    return this.cardRepo.delete(setId)
+  async delete(cardId) {
+    this.cardRepo.deleteByCardId(cardId)
+  }
+
+  async deleteSetWithCards(setId) {
+    this.cardRepo.deleteBySetId(setId)
   }
 }
