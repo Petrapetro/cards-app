@@ -1,7 +1,6 @@
 import {
   Button,
   FormControl,
-  InputBase,
   TextField
 } from '@material-ui/core'
 import React, { useState } from 'react'

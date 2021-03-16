@@ -11,9 +11,8 @@ import {
 import React, { useState, useEffect } from 'react'
 import { NavLink } from 'react-router-dom';
 import axios from 'axios'
-import { useHistory } from 'react-router-dom'
 
-const SetList = ({ userId }) => {
+const SetList = ({ userId, cardSetId, setCardSetId, name, setName, cardSet, setCardSet }) => {
   const useStyles = makeStyles({
     table: {
       minWidth: 200,
@@ -22,12 +21,8 @@ const SetList = ({ userId }) => {
   });
 
   const classes = useStyles();
-  const history = useHistory()
 
   const [studySets, setStudySets] = useState(null)
-  const [name, setName] = useState(null)
-  const [cardSet, setCardSet] = useState(undefined)
-  const [studySetId, setStudySetId] = useState(undefined)
 
   useEffect(() => {
     axios.get(`http://localhost:3000/user/${userId}`)
@@ -51,7 +46,7 @@ const SetList = ({ userId }) => {
           const { cards } = data
           setName(setname)
           setCardSet(cards)
-          setStudySetId(setId)
+          setCardSetId(setId)
         }
       })
       .catch(err => {
@@ -75,10 +70,6 @@ const SetList = ({ userId }) => {
       })
   }
 
-  const editSet = () => {
-
-  }
-
   const deleteSet = (setId) => {
     axios.delete(`http://localhost:3000/user/${userId}/set/${setId}`)
       .then(response => {
@@ -93,7 +84,7 @@ const SetList = ({ userId }) => {
   }
 
   const deleteCard = (cardId) => {
-    axios.delete(`http://localhost:3000/user/${userId}/set/${studySetId}/card/${cardId}`)
+    axios.delete(`http://localhost:3000/user/${userId}/set/${cardSetId}/card/${cardId}`)
       .then(response => {
         const { data } = response
         const { message } = data
@@ -102,7 +93,7 @@ const SetList = ({ userId }) => {
       .catch(err => {
         console.log({ err })
       })
-      openSet(studySetId, name)
+    openSet(cardSetId, name)
   }
 
   return (
@@ -123,10 +114,10 @@ const SetList = ({ userId }) => {
               }
               {cardSet !== undefined &&
                 <><TableCell>Text</TableCell>
-                  <TableCell>Flipped Text</TableCell>
-                  <TableCell>Edit</TableCell></>
+                  <TableCell>Flipped Text</TableCell></>
               }
-              <TableCell align="right">Delete</TableCell>
+              <TableCell>Edit</TableCell>
+              <TableCell>Delete</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -139,7 +130,10 @@ const SetList = ({ userId }) => {
                   <TableCell align="right">
                     <Button onClick={() => learnSet(id, setname)}>Learn {setname}</Button>
                   </TableCell>
-                  <TableCell align="right">
+                  <TableCell>
+                    <NavLink to={`/user/${userId}/set/${id}/edit`} onClick={() => { setCardSetId(id); console.log({cardSetId, name})}}>Edit</NavLink>
+                  </TableCell>
+                  <TableCell>
                     <Button onClick={() => deleteSet(id)}>Delete</Button>
                   </TableCell>
                 </TableRow>
@@ -150,7 +144,7 @@ const SetList = ({ userId }) => {
                   <TableCell>{text}</TableCell>
                   <TableCell>{flippedText}</TableCell>
                   <TableCell>edit</TableCell>
-                  <TableCell align="right">
+                  <TableCell>
                     <Button onClick={() => deleteCard(id)}>Delete</Button>
                   </TableCell>
                 </TableRow>
