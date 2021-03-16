@@ -43,15 +43,14 @@ const SetList = ({ userId }) => {
       })
   }, [])
 
-  const openSet = (userId, setId, setname) => {
+  const openSet = (setId, setname) => {
     axios.get(`http://localhost:3000/user/${userId}/set/${setId}`)
       .then(response => {
         if (response.status === 200) {
-          console.log(response, setname)
           const { data } = response
           const { cards } = data
           setName(setname)
-          setCardSet(cards) 
+          setCardSet(cards)
           setStudySetId(setId)
         }
       })
@@ -60,7 +59,7 @@ const SetList = ({ userId }) => {
       })
   }
 
-  const learnSet = (userId, setId, setname) => {
+  const learnSet = (setId, setname) => {
     axios.get(`http://localhost:3000/user/${userId}/set/${setId}`)
       .then(response => {
         if (response.status === 200) {
@@ -80,13 +79,13 @@ const SetList = ({ userId }) => {
 
   }
 
-  const deleteSet = (userId, setId) => {
+  const deleteSet = (setId) => {
     axios.delete(`http://localhost:3000/user/${userId}/set/${setId}`)
       .then(response => {
         const { data } = response
         const { message } = data
         console.log({ message })
-        history.push(`/user/${userId}`)
+        window.location.reload()
       })
       .catch(err => {
         console.log({ err })
@@ -95,15 +94,15 @@ const SetList = ({ userId }) => {
 
   const deleteCard = (cardId) => {
     axios.delete(`http://localhost:3000/user/${userId}/set/${studySetId}/card/${cardId}`)
-    .then(response => {
-      const { data } = response
-      const { message } = data
-      console.log({ message })
-      openSet(userId, studySetId, name) 
-    })
-    .catch(err => {
-      console.log({ err })
-    })
+      .then(response => {
+        const { data } = response
+        const { message } = data
+        console.log({ message })
+      })
+      .catch(err => {
+        console.log({ err })
+      })
+      openSet(studySetId, name)
   }
 
   return (
@@ -135,13 +134,13 @@ const SetList = ({ userId }) => {
               studySets.map(({ id, setname }) => (
                 <TableRow key={id}>
                   <TableCell component="th" scope="row">
-                    <Button onClick={() => openSet(userId, id, setname)}>{setname}</Button>
+                    <Button onClick={() => openSet(id, setname)}>{setname}</Button>
                   </TableCell>
                   <TableCell align="right">
-                    <Button onClick={() => learnSet(userId, id, setname)}>Learn {setname}</Button>
+                    <Button onClick={() => learnSet(id, setname)}>Learn {setname}</Button>
                   </TableCell>
                   <TableCell align="right">
-                    <Button onClick={() => deleteSet(userId, id)}>Delete</Button>
+                    <Button onClick={() => deleteSet(id)}>Delete</Button>
                   </TableCell>
                 </TableRow>
               ))}
@@ -152,7 +151,7 @@ const SetList = ({ userId }) => {
                   <TableCell>{flippedText}</TableCell>
                   <TableCell>edit</TableCell>
                   <TableCell align="right">
-                  <Button onClick={() => deleteCard(id)}>Delete</Button>
+                    <Button onClick={() => deleteCard(id)}>Delete</Button>
                   </TableCell>
                 </TableRow>
               ))}
