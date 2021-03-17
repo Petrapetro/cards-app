@@ -37,10 +37,10 @@ const EditSet = ({ name, setName, cardSet, setCardSet }) => {
   return (
     <div>
       <h1>Edit "{name}"</h1>
-      <form onSubmit={handleSubmit}>            
-      <h2>Set title: </h2>
+      <form onSubmit={handleSubmit}>
+        <h2>Set title: </h2>
         <TextField
-        className="edit-title"
+          className="edit-title"
           type="setname"
           placeholder="name"
           name="setname"
@@ -49,42 +49,48 @@ const EditSet = ({ name, setName, cardSet, setCardSet }) => {
           value={name}
           onChange={(e) => handleChange(e)}
         />
-        {cardSet.map(({text, flippedText, id}, index) => (
-          <FormControl key={id} style={{margin: '.5em'}}>
-            <h3>Card {index}:</h3>
-                <TextField
-                  className="card-input"
-                  type="text"
-                  placeholder="text"
-                  name="text"
-                  id="text"
-                  color="primary"
-                  value={text}
-                  onChange={(e) => handleChange(e)}
-                  />
-                <TextField
-                  className="card-input"
-                  type="flippedText"
-                  placeholder="flippedText"
-                  name="flippedText"
-                  id="flippedText"
-                  color="primary"
-                  value={flippedText}
-                  onChange={(e) => handleChange(e)}
-                  />
-              <hr/>
-              </FormControl>
-                  ))}
-              <div>
-                <Button
-                  variant="contained"
-                  color="secondary"
-                  type="submit"
-                >
-                  Submit changes
+        {cardSet.map(({ text, flippedText, id }, index) => (
+          <FormControl key={id} style={{ margin: '.5em' }}>
+            <h3>Card {parseInt(index) + 1}:</h3>
+            <TextField
+              className="card-input"
+              type="text"
+              placeholder="text"
+              name="text"
+              id="text"
+              color="primary"
+              value={text}
+              onChange={(e) => handleChange(e)}
+            />
+            <TextField
+              className="card-input"
+              type="flippedText"
+              placeholder="flippedText"
+              name="flippedText"
+              id="flippedText"
+              color="primary"
+              value={flippedText}
+              onChange={(e) => handleChange(e)}
+            />
+            <hr />
+          </FormControl>
+        ))}
+        <div className="buttons">
+          <Button
+            variant="contained"
+            color="secondary"
+          >
+            Add another card
             </Button>
-              </div>
-            </form>
+          <Button
+            variant="contained"
+            color="secondary"
+            type="submit"
+          >
+            Submit changes
+            </Button>
+        </div>
+      </form>
     </div>
   )
 }
