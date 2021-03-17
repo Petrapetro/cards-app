@@ -5,25 +5,28 @@ import {
   TextField
 } from '@material-ui/core'
 import axios from 'axios'
+import { useParams } from 'react-router-dom'
+import './styles.css'
 
-const EditSet = ({ userId, cardSetId, name, setName }) => {
-  const [cardSet, setCardSet] =useState('')
+const EditSet = ({ name, setName, cardSet, setCardSet }) => {
+  const { userid, setid } = useParams()
 
   useEffect(() => {
-    axios.get(`http://localhost:3000/user/${userId}/set/${cardSetId}`)
+    axios.get(`http://localhost:3000/user/${userid}/set/${setid}`)
       .then(response => {
         if (response.status === 200) {
           const { data } = response
           const { cards } = data
-          console.log({cards})
+          console.log({ cards })
           setCardSet(cards)
-          console.log({cardSetId, cardSet})
+          console.log({ setid, cardSet })
         }
       })
       .catch(err => {
         console.log({ err })
       })
   }, [])
+
   const handleChange = () => {
 
   }
@@ -33,10 +36,11 @@ const EditSet = ({ userId, cardSetId, name, setName }) => {
   }
   return (
     <div>
-      <h1>Edit {name}</h1>
-      <p>Some text</p>
-     {/*  <form onSubmit={handleSubmit}>
+      <h1>Edit "{name}"</h1>
+      <form onSubmit={handleSubmit}>            
+      <h2>Set title: </h2>
         <TextField
+        className="edit-title"
           type="setname"
           placeholder="name"
           name="setname"
@@ -45,9 +49,11 @@ const EditSet = ({ userId, cardSetId, name, setName }) => {
           value={name}
           onChange={(e) => handleChange(e)}
         />
-        {cardSet.map(({text, flippedText, id}) => (
-          <FormControl key={id}>
+        {cardSet.map(({text, flippedText, id}, index) => (
+          <FormControl key={id} style={{margin: '.5em'}}>
+            <h3>Card {index}:</h3>
                 <TextField
+                  className="card-input"
                   type="text"
                   placeholder="text"
                   name="text"
@@ -57,6 +63,7 @@ const EditSet = ({ userId, cardSetId, name, setName }) => {
                   onChange={(e) => handleChange(e)}
                   />
                 <TextField
+                  className="card-input"
                   type="flippedText"
                   placeholder="flippedText"
                   name="flippedText"
@@ -65,6 +72,7 @@ const EditSet = ({ userId, cardSetId, name, setName }) => {
                   value={flippedText}
                   onChange={(e) => handleChange(e)}
                   />
+              <hr/>
               </FormControl>
                   ))}
               <div>
@@ -76,7 +84,7 @@ const EditSet = ({ userId, cardSetId, name, setName }) => {
                   Submit changes
             </Button>
               </div>
-            </form> */}
+            </form>
     </div>
   )
 }

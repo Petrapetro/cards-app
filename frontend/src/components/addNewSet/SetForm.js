@@ -3,16 +3,18 @@ import {
   FormControl,
   TextField
 } from '@material-ui/core'
-import React, { useState } from 'react'
+import React, { useState,  } from 'react'
 import axios from 'axios'
 import { useHistory } from 'react-router'
+import { useParams } from 'react-router-dom'
 
-const SetForm = ({ userId }) => {
+const SetForm = () => {
   const [cards, setCards] = useState([{}])
   const [setname, setSetname] = useState(undefined)
   const [text, setText] = useState(undefined)
   const [flippedText, setFlippedText] = useState(undefined)
   const history = useHistory()
+  let { id } = useParams();
 
   const handleChange = (e) => {
     e.persist()
@@ -49,10 +51,10 @@ const SetForm = ({ userId }) => {
     e.preventDefault()
     if (setname) {
       const inputs = { setname, cards }
-      axios.post(`http://localhost:3000/user/${userId}/addNewSet`, inputs)
+      axios.post(`http://localhost:3000/user/${id}/addNewSet`, inputs)
         .then(response => {
           if (response.status === 200) {
-            history.push(`/user/${userId}`)
+            history.push(`/user/${id}`)
           }
         })
         .catch(err => {

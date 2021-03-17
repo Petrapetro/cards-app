@@ -8,11 +8,12 @@ import {
   TableHead,
   TableRow
 } from '@material-ui/core'
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { NavLink } from 'react-router-dom';
 import axios from 'axios'
+import { useParams } from 'react-router-dom'
 
-const SetList = ({ userId, cardSetId, setCardSetId, name, setName, cardSet, setCardSet }) => {
+const SetList = ({ cardSetId, name, setName, cardSet, setCardSet, studySets, openSet }) => {
   const useStyles = makeStyles({
     table: {
       minWidth: 200,
@@ -20,42 +21,12 @@ const SetList = ({ userId, cardSetId, setCardSetId, name, setName, cardSet, setC
     },
   });
 
+  const { userid } = useParams()
+
   const classes = useStyles();
 
-  const [studySets, setStudySets] = useState(null)
-
-  useEffect(() => {
-    axios.get(`http://localhost:3000/user/${userId}`)
-      .then(response => {
-        if (response.status === 200) {
-          const { data } = response
-          const { sets } = data
-          setStudySets(sets)
-        }
-      })
-      .catch(err => {
-        console.log({ err })
-      })
-  }, [])
-
-  const openSet = (setId, setname) => {
-    axios.get(`http://localhost:3000/user/${userId}/set/${setId}`)
-      .then(response => {
-        if (response.status === 200) {
-          const { data } = response
-          const { cards } = data
-          setName(setname)
-          setCardSet(cards)
-          setCardSetId(setId)
-        }
-      })
-      .catch(err => {
-        console.log({ err })
-      })
-  }
-
   const learnSet = (setId, setname) => {
-    axios.get(`http://localhost:3000/user/${userId}/set/${setId}`)
+    axios.get(`http://localhost:3000/user/${userid}/set/${setId}`)
       .then(response => {
         if (response.status === 200) {
           const { data } = response
@@ -71,7 +42,7 @@ const SetList = ({ userId, cardSetId, setCardSetId, name, setName, cardSet, setC
   }
 
   const deleteSet = (setId) => {
-    axios.delete(`http://localhost:3000/user/${userId}/set/${setId}`)
+    axios.delete(`http://localhost:3000/user/${userid}/set/${setId}`)
       .then(response => {
         const { data } = response
         const { message } = data
@@ -84,7 +55,7 @@ const SetList = ({ userId, cardSetId, setCardSetId, name, setName, cardSet, setC
   }
 
   const deleteCard = (cardId) => {
-    axios.delete(`http://localhost:3000/user/${userId}/set/${cardSetId}/card/${cardId}`)
+    axios.delete(`http://localhost:3000/user/${userid}/set/${cardSetId}/card/${cardId}`)
       .then(response => {
         const { data } = response
         const { message } = data
@@ -101,7 +72,8 @@ const SetList = ({ userId, cardSetId, setCardSetId, name, setName, cardSet, setC
       {name === undefined ?
         <h1 style={{ marginTop: 0 }}>Your Sets</h1>
         :
-        <h1 style={{ marginTop: 0 }}>{name}</h1>
+        <><h1 style={{ marginTop: 0 }}>{name}</h1>
+          <NavLink to={`/user/${userid}/set/${cardSetId}/edit`}> Edit set </NavLink></>
       }
 
       <TableContainer>
@@ -114,9 +86,9 @@ const SetList = ({ userId, cardSetId, setCardSetId, name, setName, cardSet, setC
               }
               {cardSet !== undefined &&
                 <><TableCell>Text</TableCell>
-                  <TableCell>Flipped Text</TableCell></>
+                  <TableCell>Flipped Text</TableCell>
+                  <TableCell>Edit</TableCell></>
               }
-              <TableCell>Edit</TableCell>
               <TableCell>Delete</TableCell>
             </TableRow>
           </TableHead>
@@ -131,9 +103,6 @@ const SetList = ({ userId, cardSetId, setCardSetId, name, setName, cardSet, setC
                     <Button onClick={() => learnSet(id, setname)}>Learn {setname}</Button>
                   </TableCell>
                   <TableCell>
-                    <NavLink to={`/user/${userId}/set/${id}/edit`} onClick={() => { setCardSetId(id); console.log({cardSetId, name})}}>Edit</NavLink>
-                  </TableCell>
-                  <TableCell>
                     <Button onClick={() => deleteSet(id)}>Delete</Button>
                   </TableCell>
                 </TableRow>
@@ -143,7 +112,7 @@ const SetList = ({ userId, cardSetId, setCardSetId, name, setName, cardSet, setC
                 <TableRow key={id}>
                   <TableCell>{text}</TableCell>
                   <TableCell>{flippedText}</TableCell>
-                  <TableCell>edit</TableCell>
+                  <TableCell>edit card</TableCell>
                   <TableCell>
                     <Button onClick={() => deleteCard(id)}>Delete</Button>
                   </TableCell>

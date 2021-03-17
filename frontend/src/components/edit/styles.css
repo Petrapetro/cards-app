@@ -1,0 +1,19 @@
+.edit-title {
+  display: block;
+  width: 90%;
+  margin-left: 1em;
+  margin-right: 1em;
+}
+.card-form {
+  width: auto;
+  display: flex;
+  background-color: white;
+  opacity: 1;
+  border-radius: 10%;
+}
+.card-input {
+  padding: 1em;
+  margin-left: 1em;
+  margin-right: 1em;
+
+}
