@@ -24,5 +24,6 @@ router.get('/user/:id/set/:setid', authHandler, cardController.get)
 router.post('/user/:id/addNewSet', authHandler, setController.add)
 router.delete('/user/:id/set/:setid', authHandler, setController.delete)
 router.delete('/user/:id/set/:setid/card/:cardid', authHandler, cardController.delete)
+router.put('/user/:id/set/:setid/edit', authHandler, setController.update)
 
 module.exports = router

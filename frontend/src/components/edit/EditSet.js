@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import {
   Button,
   FormControl,
@@ -6,10 +6,12 @@ import {
 } from '@material-ui/core'
 import axios from 'axios'
 import { useParams } from 'react-router-dom'
+import { useHistory } from 'react-router'
 import './styles.css'
 
 const EditSet = ({ name, setName, cardSet, setCardSet }) => {
   const { userid, setid } = useParams()
+  const history = useHistory()
 
   useEffect(() => {
     axios.get(`http://localhost:3000/user/${userid}/set/${setid}`)
@@ -31,35 +33,69 @@ const EditSet = ({ name, setName, cardSet, setCardSet }) => {
     e.persist()
     console.log(cardid)
     if (e.target.name === "flippedText") {
-      const card = cardSet.filter(({id, text, flippedText, setId}) => {
-           if (id === cardid) {
-             return id, text, flippedText, setId
-      }}
-     )
+      const card = cardSet.filter(({ id, text, flippedText, setId }) => {
+        if (id === cardid) {
+          return id, text, flippedText, setId
+        }
+      }
+      )
       console.log(card)
       card[0].flippedText = e.target.value
       console.log(card)
       let updatedCardSet = [...cardSet]
-      console.log({updatedCardSet})
-      updatedCardSet.map(({id}, i) => {
-      if (id === cardid && i === index) {
-        updatedCardSet[i] = card
-      }})
+      console.log({ updatedCardSet })
+      updatedCardSet.map(({ id, text, flippedText, setId }, i) => {
+        if (id === cardid && i === index) {
+          id = card.id
+          text = card.text
+          flippedText = card.flippedText
+          setId = card.setId
+        }
+      })
       setCardSet(updatedCardSet)
     }
     if (e.target.name === "text") {
-      const card = cardSet.filter(({id}) =>
-       id === cardid )
-      card.text = e.target.value
-      setCardSet([...cardSet, cardSet[index] = card])
+      const card = cardSet.filter(({ id, text, flippedText, setId }) => {
+        if (id === cardid) {
+          return id, text, flippedText, setId
+        }
+      }
+      )
+      console.log(card)
+      card[0].text = e.target.value
+      console.log(card)
+      let updatedCardSet = [...cardSet]
+      console.log({ updatedCardSet })
+      updatedCardSet.map(({ id, text, flippedText, setId }, i) => {
+        if (id === cardid && i === index) {
+          id = card.id
+          text = card.text
+          flippedText = card.flippedText
+          setId = card.setId
+        }
+      })
+      setCardSet(updatedCardSet)
     }
     if (cardid === undefined && index === undefined) {
       setName(e.target.value)
-    } 
+    }
   }
 
-  const handleSubmit = () => {
-
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    const inputs = { name, cardSet }
+    axios.put(`http://localhost:3000/user/${userid}/set/${setid}/edit`, inputs)
+      .then(response => {
+        if (response.status === 200) {
+          history.push(`/user/${userid}`)
+        }
+      })
+      .catch(err => {
+        console.error(err)
+        const { data } = err.response
+        const { message } = data
+        console.error(message)
+      })
   }
   return (
     <div>
@@ -80,6 +116,7 @@ const EditSet = ({ name, setName, cardSet, setCardSet }) => {
           <FormControl key={id} style={{ margin: '.5em' }}>
             <h3>Card {parseInt(index) + 1}:</h3>
             <TextField
+              key={`text-${id}`}
               className="card-input"
               type="text"
               placeholder="text"
@@ -90,6 +127,7 @@ const EditSet = ({ name, setName, cardSet, setCardSet }) => {
               onChange={(e) => handleChange(e, id, index)}
             />
             <TextField
+              key={`FlippedText-${id}`}
               className="card-input"
               type="flippedText"
               placeholder="flippedText"

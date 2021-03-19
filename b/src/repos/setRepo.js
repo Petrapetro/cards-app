@@ -11,6 +11,11 @@ export class SetRepo {
     return (await this.db('INSERT INTO sets(setname, userId) VALUES (?,?)', [setname, userId])).results
   }
 
+  async update(setId, setname) {
+    console.log('setRepo: ', setId, setname)
+    return (await this.db('UPDATE sets SET setname = ? WHERE id = ?', [setname, setId])).results
+  }
+
   async delete(setId) {
     this.db('DELETE FROM sets WHERE id = ?', [setId])
   }

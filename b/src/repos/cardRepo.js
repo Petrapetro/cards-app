@@ -13,6 +13,10 @@ export class CardRepo {
     return this.db('INSERT INTO cards(text, flippedText, setId) VALUES (?,?,?)', [text, flippedText, setId])
   }
 
+  async update(cardId, text, flippedText) {
+    return (await this.db('UPDATE cards SET text = ?, flippedText = ? WHERE id = ?', [text, flippedText, cardId])).results
+  }
+
   async deleteBySetId(setId) {
     this.db('DELETE FROM cards WHERE setId = ?', [setId])
   }

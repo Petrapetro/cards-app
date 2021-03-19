@@ -11,6 +11,11 @@ export class SetService {
     return this.setRepo.add(userId, setname)
   }
 
+  async update(setId, setname) {
+    console.log("setService: ", setId, setname)
+    return this.setRepo.update(setId, setname)
+  }
+
   async delete(setId) {
     console.log("setService")
     return this.setRepo.delete(setId)

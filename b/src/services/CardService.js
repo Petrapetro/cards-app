@@ -20,6 +20,14 @@ export class CardService {
     return this.getAllBySetId(setId)
   }
 
+  async update(setId, cards) {
+    cards.map(({id, text, flippedText}) => {
+      console.log('cardService: ', { id, text, flippedText})
+        this.cardRepo.update(id, text, flippedText)
+    })
+    return this.getAllBySetId(setId)
+  }
+
   async delete(cardId) {
     this.cardRepo.deleteByCardId(cardId)
   }
