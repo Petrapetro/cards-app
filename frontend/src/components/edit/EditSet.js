@@ -27,8 +27,35 @@ const EditSet = ({ name, setName, cardSet, setCardSet }) => {
       })
   }, [])
 
-  const handleChange = () => {
-
+  const handleChange = (e, cardid, index) => {
+    e.persist()
+    console.log(cardid)
+    if (e.target.name === "flippedText") {
+      const card = cardSet.filter(({id, text, flippedText, setId}) => {
+           if (id === cardid) {
+             return id, text, flippedText, setId
+      }}
+     )
+      console.log(card)
+      card[0].flippedText = e.target.value
+      console.log(card)
+      let updatedCardSet = [...cardSet]
+      console.log({updatedCardSet})
+      updatedCardSet.map(({id}, i) => {
+      if (id === cardid && i === index) {
+        updatedCardSet[i] = card
+      }})
+      setCardSet(updatedCardSet)
+    }
+    if (e.target.name === "text") {
+      const card = cardSet.filter(({id}) =>
+       id === cardid )
+      card.text = e.target.value
+      setCardSet([...cardSet, cardSet[index] = card])
+    }
+    if (cardid === undefined && index === undefined) {
+      setName(e.target.value)
+    } 
   }
 
   const handleSubmit = () => {
@@ -60,7 +87,7 @@ const EditSet = ({ name, setName, cardSet, setCardSet }) => {
               id="text"
               color="primary"
               value={text}
-              onChange={(e) => handleChange(e)}
+              onChange={(e) => handleChange(e, id, index)}
             />
             <TextField
               className="card-input"
@@ -70,7 +97,7 @@ const EditSet = ({ name, setName, cardSet, setCardSet }) => {
               id="flippedText"
               color="primary"
               value={flippedText}
-              onChange={(e) => handleChange(e)}
+              onChange={(e) => handleChange(e, id, index)}
             />
             <hr />
           </FormControl>
