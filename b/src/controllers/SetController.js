@@ -41,12 +41,12 @@ export class SetController {
 
   async update(req, res) {
     const { params, body } = req
-    const { name, cardSet } = body
+    const { name, cardSet, cardSetInitialLength } = body
     const setId = params.setid
     console.log("SetController incoming datas: ", setId, name, cardSet)
     try {
       await this.setService.update(setId, name)
-      await this.cardService.update(setId, cardSet)
+      await this.cardService.update(setId, cardSet, cardSetInitialLength)
       res.status(200).json({message: `Set with name ${name} and id ${setId} was updated.`})
     } catch (e) {
       res.status(500).json({ message: e.message })

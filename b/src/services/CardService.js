@@ -20,11 +20,22 @@ export class CardService {
     return this.getAllBySetId(setId)
   }
 
-  async update(setId, cards) {
-    cards.map(({id, text, flippedText}) => {
-      console.log('cardService: ', { id, text, flippedText})
+  async update(setId, cards, cardSetInitialLength) {
+    console.log("cardService - cards length: ", cards.length, " initial length: ", cardSetInitialLength)
+    if (cardSetInitialLength < cards.length) {
+      cards.forEach(({ id, text, flippedText, setId }) => {
+        if (String(id).includes("newCard")) {
+          this.cardRepo.add(text, flippedText, setId)
+        } else {
+          this.cardRepo.update(id, text, flippedText)
+        }
+      })
+    } else {
+      cards.map(({ id, text, flippedText }) => {
+        console.log('cardService: ', { id, text, flippedText })
         this.cardRepo.update(id, text, flippedText)
-    })
+      })
+    }
     return this.getAllBySetId(setId)
   }
 

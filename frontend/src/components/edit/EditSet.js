@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   Button,
   FormControl,
@@ -12,6 +12,8 @@ import './styles.css'
 const EditSet = ({ name, setName, cardSet, setCardSet }) => {
   const { userid, setid } = useParams()
   const history = useHistory()
+  const [cardSetInitialLength, setCardSetInitialLength] = useState(undefined)
+  const [newCardCounter, setNewCardCounter] = useState(1)
 
   useEffect(() => {
     axios.get(`http://localhost:3000/user/${userid}/set/${setid}`)
@@ -21,6 +23,7 @@ const EditSet = ({ name, setName, cardSet, setCardSet }) => {
           const { cards } = data
           console.log({ cards })
           setCardSet(cards)
+          setCardSetInitialLength(cardSet.length)
           console.log({ setid, cardSet })
         }
       })
@@ -81,9 +84,24 @@ const EditSet = ({ name, setName, cardSet, setCardSet }) => {
     }
   }
 
+  const addNewCard = () => {
+    let newCard = {
+      id: 'newCard ' + newCardCounter,
+      text: '',
+      flippedText: '',
+      setId: setid
+    }
+    setNewCardCounter(newCardCounter + 1)
+    console.log({newCardCounter})
+    let updatedCardSet = [...cardSet, newCard]
+    console.log(updatedCardSet)
+    console.log(updatedCardSet.length)
+    setCardSet(updatedCardSet)
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault()
-    const inputs = { name, cardSet }
+    const inputs = { name, cardSet, cardSetInitialLength }
     axios.put(`http://localhost:3000/user/${userid}/set/${setid}/edit`, inputs)
       .then(response => {
         if (response.status === 200) {
@@ -144,6 +162,7 @@ const EditSet = ({ name, setName, cardSet, setCardSet }) => {
           <Button
             variant="contained"
             color="secondary"
+            onClick={addNewCard}
           >
             Add another card
             </Button>
