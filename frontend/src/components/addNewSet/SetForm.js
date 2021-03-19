@@ -14,7 +14,7 @@ const SetForm = () => {
   const [text, setText] = useState(undefined)
   const [flippedText, setFlippedText] = useState(undefined)
   const history = useHistory()
-  let { id } = useParams();
+  let { userid } = useParams();
 
   const handleChange = (e) => {
     e.persist()
@@ -51,10 +51,10 @@ const SetForm = () => {
     e.preventDefault()
     if (setname) {
       const inputs = { setname, cards }
-      axios.post(`http://localhost:3000/user/${id}/addNewSet`, inputs)
+      axios.post(`http://localhost:3000/user/${userid}/addNewSet`, inputs)
         .then(response => {
           if (response.status === 200) {
-            history.push(`/user/${id}`)
+            history.push(`/user/${userid}`)
           }
         })
         .catch(err => {
