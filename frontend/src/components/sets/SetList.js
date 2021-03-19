@@ -12,6 +12,7 @@ import React from 'react'
 import { NavLink } from 'react-router-dom';
 import axios from 'axios'
 import { useParams } from 'react-router-dom'
+import './styles.css'
 
 const SetList = ({ cardSetId, name, setName, cardSet, setCardSet, studySets, openSet }) => {
   const useStyles = makeStyles({
@@ -70,10 +71,11 @@ const SetList = ({ cardSetId, name, setName, cardSet, setCardSet, studySets, ope
   return (
     <div>
       {name === undefined ?
-        <h1 style={{ marginTop: 0 }}>Your Sets</h1>
+        <div className="title-background"><h1 className="title">Your Sets</h1></div>
         :
-        <><h1 style={{ marginTop: 0 }}>{name}</h1>
-          <NavLink to={`/user/${userid}/set/${cardSetId}/edit`}> Edit set </NavLink></>
+        <div className="title-background"><h1 className="title">{name}</h1>
+          <NavLink className="option" to={`/user/${userid}/set/${cardSetId}/edit`}> Edit </NavLink>
+          <NavLink className="option" to={`/user/${userid}/set/${cardSetId}/learn`}> Learn </NavLink></div>
       }
 
       <TableContainer>
@@ -95,9 +97,9 @@ const SetList = ({ cardSetId, name, setName, cardSet, setCardSet, studySets, ope
           <TableBody>
             {cardSet === undefined && studySets !== null &&
               studySets.map(({ id, setname }) => (
-                <TableRow key={id}>
+                <TableRow hover key={id}>
                   <TableCell component="th" scope="row">
-                    <Button onClick={() => openSet(id, setname)}>{setname}</Button>
+                    <Button className="text" onClick={() => openSet(id, setname)}>{setname}</Button>
                   </TableCell>
                   <TableCell align="right">
                     <Button onClick={() => learnSet(id, setname)}>Learn {setname}</Button>
@@ -109,9 +111,9 @@ const SetList = ({ cardSetId, name, setName, cardSet, setCardSet, studySets, ope
               ))}
             {cardSet !== undefined &&
               cardSet.map(({ text, flippedText, id }) => (
-                <TableRow key={id}>
-                  <TableCell>{text}</TableCell>
-                  <TableCell>{flippedText}</TableCell>
+                <TableRow hover key={id}>
+                  <TableCell className="text">{text}</TableCell>
+                  <TableCell className="flippedText">{flippedText}</TableCell>
                   <TableCell>edit card</TableCell>
                   <TableCell>
                     <Button onClick={() => deleteCard(id)}>Delete</Button>

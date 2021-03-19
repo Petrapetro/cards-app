@@ -21,10 +21,10 @@
  display: flex;
  justify-content: space-between;
 }
-.title {
+.header-title {
   font-size: 2em;
 }
-.title, .logout, .addNew {
+.header-title, .logout, .addNew {
   text-decoration: none;
   font-weight: bold;
   color: white;
