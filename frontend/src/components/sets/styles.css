@@ -1,8 +1,11 @@
-.title {
+.list-title {
   margin-top: 0;
   display: inline-block; 
   margin-right: 0.5em;
   color: black;
+  font-weight: bold;
+}
+.list-text {
   font-weight: bold;
 }
 .option {
@@ -28,7 +31,4 @@
   opacity: 1;
   padding: 1em;
   border-radius: 9999px;
-}
-.text, .flippedText {
-  font-weight: bold;
 }

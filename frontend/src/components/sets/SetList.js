@@ -71,9 +71,9 @@ const SetList = ({ cardSetId, name, setName, cardSet, setCardSet, studySets, ope
   return (
     <div>
       {name === undefined ?
-        <div className="title-background"><h1 className="title">Your Sets</h1></div>
+        <div className="title-background"><h1 className="list-title">Your Sets</h1></div>
         :
-        <div className="title-background"><h1 className="title">{name}</h1>
+        <div className="title-background"><h1 className="list-title">{name}</h1>
           <NavLink className="option" to={`/user/${userid}/set/${cardSetId}/edit`}> Edit </NavLink>
           <NavLink className="option" to={`/user/${userid}/set/${cardSetId}/learn`}> Learn </NavLink></div>
       }
@@ -99,7 +99,7 @@ const SetList = ({ cardSetId, name, setName, cardSet, setCardSet, studySets, ope
               studySets.map(({ id, setname }) => (
                 <TableRow hover key={id}>
                   <TableCell component="th" scope="row">
-                    <Button className="text" onClick={() => openSet(id, setname)}>{setname}</Button>
+                    <Button style={{fontWeight: "bold",}} onClick={() => openSet(id, setname)}>{setname}</Button>
                   </TableCell>
                   <TableCell align="right">
                     <Button onClick={() => learnSet(id, setname)}>Learn {setname}</Button>
@@ -112,8 +112,8 @@ const SetList = ({ cardSetId, name, setName, cardSet, setCardSet, studySets, ope
             {cardSet !== undefined &&
               cardSet.map(({ text, flippedText, id }) => (
                 <TableRow hover key={id}>
-                  <TableCell className="text">{text}</TableCell>
-                  <TableCell className="flippedText">{flippedText}</TableCell>
+                  <TableCell style={{fontWeight: "bold",}}>{text}</TableCell>
+                  <TableCell style={{fontWeight: "bold",}}>{flippedText}</TableCell>
                   <TableCell>edit card</TableCell>
                   <TableCell>
                     <Button onClick={() => deleteCard(id)}>Delete</Button>

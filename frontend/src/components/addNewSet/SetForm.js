@@ -85,7 +85,7 @@ const SetForm = () => {
           <><div className="card-title">Card {index}: </div>
             <div className="card-text">{text}</div>
             <div className="card-text">{flippedText}</div></>))}
-        <div className="card-input">
+        <div className="card-add">
         <FormControl>
           <div className="card-title">Card {cards.length}: </div>
           <TextField
