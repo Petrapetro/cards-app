@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import SetList from '../sets/SetList'
-import './styles.css'
 import {
   Switch,
   Route,
 } from 'react-router-dom'
 import SetForm from '../addNewSet/SetForm'
 import EditSet from '../edit/EditSet'
+import './styles.css'
 
 const Workbench = ({ id }) => {
   const [cardSetId, setCardSetId] = useState(undefined)

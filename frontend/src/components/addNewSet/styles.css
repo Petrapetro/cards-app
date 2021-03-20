@@ -1,0 +1,32 @@
+.setForm-wrapper {
+  padding-left: 0.5em;
+}
+.create-title {
+  display: block;
+  width: 90%;
+  margin-left: 1em;
+  margin-right: 1em;
+}
+.card-text {
+  margin: 0;
+}
+.card-title {
+  font-size: 1.5em;
+  font-weight: bold;
+  margin-top: 1em;
+}
+.card-form {
+  width: auto;
+  display: flex;
+  background-color: white;
+  opacity: 1;
+  border-radius: 10%;
+}
+.card-input {
+  display: block;
+  margin-bottom: 1em;
+}
+.buttons {
+  display: flex;
+  justify-content: space-between;
+}

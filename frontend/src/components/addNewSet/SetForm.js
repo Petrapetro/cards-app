@@ -3,10 +3,11 @@ import {
   FormControl,
   TextField
 } from '@material-ui/core'
-import React, { useState,  } from 'react'
+import React, { useState, } from 'react'
 import axios from 'axios'
 import { useHistory } from 'react-router'
 import { useParams } from 'react-router-dom'
+import './styles.css'
 
 const SetForm = () => {
   const [cards, setCards] = useState([{}])
@@ -32,13 +33,13 @@ const SetForm = () => {
   const addWord = () => {
     if (text !== undefined && flippedText !== undefined &&
       text !== '' && flippedText !== '') {
-        console.log(cards[0])
-      if(cards[0] === {}) {
-        console.log({cards})
-        setCards({text, flippedText})
-        console.log({cards})
+      console.log(cards[0])
+      if (cards[0] === {}) {
+        console.log({ cards })
+        setCards({ text, flippedText })
+        console.log({ cards })
       } else {
-        setCards([...cards, {text, flippedText}])
+        setCards([...cards, { text, flippedText }])
       }
       console.log({ cards })
       setText('')
@@ -66,9 +67,10 @@ const SetForm = () => {
     }
   }
   return (
-    <div>
+    <div className="setForm-wrapper">
       <h1>Create new Study Set</h1>
       <form onSubmit={handleSubmit}>
+        <h2>Set title: </h2>
         <TextField
           type="setname"
           placeholder="setname"
@@ -78,40 +80,50 @@ const SetForm = () => {
           value={setname}
           onChange={(e) => handleChange(e)}
         />
-        {cards.map(({text, flippedText}, index) => (
+        {cards.map(({ text, flippedText }, index) => (
           index > 0 &&
-          <><p>{`${index}`} Text: {`${text}`} Flipped Text: {`${flippedText}`}</p></>))}
-              <FormControl>
-                <TextField
-                  type="text"
-                  placeholder="text"
-                  name="text"
-                  id="text"
-                  color="primary"
-                  value={text}
-                  onChange={(e) => handleChange(e)}
-                />
-                <TextField
-                  type="flippedText"
-                  placeholder="flippedText"
-                  name="flippedText"
-                  id="flippedText"
-                  color="primary"
-                  value={flippedText}
-                  onChange={(e) => handleChange(e)}
-                />
-              </FormControl>
-          <Button onClick={addWord}>Add another word</Button>
-              <div>
-                <Button
-                  variant="contained"
-                  color="secondary"
-                  type="submit"
-                >
-                  Create Set!
+          <><div className="card-title">Card {index}: </div>
+            <div className="card-text">{text}</div>
+            <div className="card-text">{flippedText}</div></>))}
+        <div className="card-input">
+        <FormControl>
+          <div className="card-title">Card {cards.length}: </div>
+          <TextField
+            type="text"
+            placeholder="text"
+            name="text"
+            id="text"
+            color="primary"
+            value={text}
+            onChange={(e) => handleChange(e)}
+          />
+          <TextField
+            type="flippedText"
+            placeholder="flippedText"
+            name="flippedText"
+            id="flippedText"
+            color="primary"
+            value={flippedText}
+            onChange={(e) => handleChange(e)}
+          />
+        </FormControl>
+        </div>
+        <div className="buttons">
+          <Button
+            onClick={addWord}
+            variant="contained"
+            color="secondary">
+            Add another word
             </Button>
-              </div>
-            </form>
+          <Button
+            variant="contained"
+            color="secondary"
+            type="submit"
+          >
+            Create Set!
+            </Button>
+        </div>
+      </form>
     </div>
   )
 }
