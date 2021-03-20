@@ -87,7 +87,7 @@ const SetForm = () => {
             <div className="card-text">{flippedText}</div></>))}
         <div className="card-add">
         <FormControl>
-          <div className="card-title">Card {cards.length}: </div>
+          <div className="card-title">Card {cards.length} (pending): </div>
           <TextField
             type="text"
             placeholder="text"
@@ -113,7 +113,7 @@ const SetForm = () => {
             onClick={addWord}
             variant="contained"
             color="secondary">
-            Add another word
+            Finalize peding card & Add another
             </Button>
           <Button
             variant="contained"
