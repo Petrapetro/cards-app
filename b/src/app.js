@@ -12,3 +12,5 @@ const PORT = config.port || 3000
 app.listen(PORT, () => {
   console.log(`App is listening on ${PORT}`);
 })
+
+export default app;
