@@ -7,6 +7,7 @@ import {
 } from 'react-router-dom'
 import SetForm from '../addNewSet/SetForm'
 import EditSet from '../edit/EditSet'
+import LearnSet from '../learn/LearnSet'
 import './styles.css'
 
 const Workbench = ({ id }) => {
@@ -36,7 +37,6 @@ const Workbench = ({ id }) => {
           const { data } = response
           const { cards } = data
           console.log("open set", { setname, cards, setId })
-          console.log("open set", { name, cardSetId, cardSet })
           setName(setname)
           setCardSet(cards)
           setCardSetId(setId)
@@ -74,6 +74,9 @@ const Workbench = ({ id }) => {
             cardSet={cardSet} 
             setCardSet={setCardSet}
             />}
+        </Route>
+        <Route path="/user/:userid/set/:setid/learn">
+          {<LearnSet/>}
         </Route>
       </Switch>
     </div>
