@@ -69,7 +69,7 @@ const SetList = ({ cardSetId, name, setName, cardSet, setCardSet, studySets, ope
   }
 
   return (
-    <div>
+    <div className="wrapper-workbench">
       {name === undefined ?
         <div className="title-background"><h1 className="list-title">Your Sets</h1></div>
         :

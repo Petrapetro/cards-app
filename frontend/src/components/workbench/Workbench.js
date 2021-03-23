@@ -8,7 +8,6 @@ import {
 import SetForm from '../addNewSet/SetForm'
 import EditSet from '../edit/EditSet'
 import LearnSet from '../learn/LearnSet'
-import './styles.css'
 
 const Workbench = ({ id }) => {
   const [cardSetId, setCardSetId] = useState(undefined)
@@ -49,7 +48,7 @@ const Workbench = ({ id }) => {
   }
 
   return (
-    <div className="wrapper-workbench">
+    <div>
       <Switch>
         <Route exact path="/user/:userid">
           {<SetList

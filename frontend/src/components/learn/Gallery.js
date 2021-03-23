@@ -34,7 +34,12 @@ const Gallery = ({userId, cardSetId}) => {
   console.log({cards})
 
   const [index, setIndex] = useState(0);
-  const onClick = useCallback(() => setIndex(state => (state + 1) % 3), []);
+  const onClickNext = () =>  {
+    setIndex(state => (state + 1) % cardSet.length)
+  }
+  const onClickBack = () => {
+    setIndex(state => (state - 1) % cardSet.length)
+  }
 
   const transitions = useTransition(index, p => p, {
     from: { opacity: 0, transform: "translateX(100%)" },
@@ -44,14 +49,20 @@ const Gallery = ({userId, cardSetId}) => {
   });
 
   return (
+    <div style={{display: "flex", justifyContent: "space-around"}}>    
+      <Button onClick={onClickBack}>Back</Button>
     <div className="gallery">
-      {transitions.map(({ item, props, key }) => {
+      {transitions.map(({item, props, key}) => {
         console.log({ item, props, key })
         let actualCard = cardSet[item]
         console.log({actualCard})
-        return <Card key={key} text={actualCard.text} flippedText={actualCard.flippedText} />
+        return <animated.div style={props} key={{}}>
+          <Card text={actualCard.text} flippedText={actualCard.flippedText} />
+          </animated.div>
       })}
-      <Button onClick={onClick}>Next</Button>
+    </div>
+    <Button onClick={onClickNext}>Next</Button>
+
     </div>
   );
 };
