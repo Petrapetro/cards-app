@@ -49,8 +49,8 @@ const Gallery = ({userId, cardSetId}) => {
   });
 
   return (
-    <div style={{display: "flex", justifyContent: "space-around"}}>    
-      <Button onClick={onClickBack}>Back</Button>
+    <div className="gallery-wrapper" style={{}}>    
+      <button className="gallery-button" onClick={onClickBack}>&larr;</button>
     <div className="gallery">
       {transitions.map(({item, props, key}) => {
         console.log({ item, props, key })
@@ -61,7 +61,7 @@ const Gallery = ({userId, cardSetId}) => {
           </animated.div>
       })}
     </div>
-    <Button onClick={onClickNext}>Next</Button>
+    <button className="gallery-button" onClick={onClickNext}>&rarr;</button>
 
     </div>
   );
